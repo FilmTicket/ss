@@ -1,69 +1,80 @@
-CREATE SCHEMA IF NOT EXISTS `easy_buy`;
+CREATE SCHEMA IF NOT EXISTS `easyBuy`;
 
-CREATE TABLE IF NOT EXISTS `easy_buy`.`user` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `username` varchar(45) NOT NULL,
-    `password` varchar(45) NOT NULL,
-    `phone_number` varchar(11) NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `username` (`username`),
-    UNIQUE KEY `phone_number` (`phone_number`)
+CREATE TABLE IF NOT EXISTS `easyBuy`.`user` (
+    `userId` INT NOT NULL AUTO_INCREMENT,
+    `userName` VARCHAR(50) NOT NULL,
+    `password` VARCHAR(50) NOT NULL,
+    `description` TEXT DEFAULT NULL,
+    `avatar` TEXT DEFAULT NULL,
+    PRIMARY KEY (`userId`),
+    UNIQUE KEY `userName` (`userName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `easy_buy`.`theater` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-    `name` varchar(45) NOT NULL,
-    `city` int(11) NOT NULL,
-    PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS `easyBuy`.`theater` (
+	`theaterId` INT NOT NULL AUTO_INCREMENT,
+    `theaterName` VARCHAR(50) NOT NULL,
+    `theaterAddr` VARCHAR(50) NOT NULL,
+    `theaterDis` VARCHAR(50) DEFAULT NULL,
+    `theaterLowest` VARCHAR(50) DEFAULT NULL,
+    `tag` VARCHAR(50) DEFAULT NULL,
+    PRIMARY KEY (`theaterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `easy_buy`.`movie` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-    `name` varchar(45) NOT NULL,
-    `detail` text DEFAULT NULL,
-    PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS `easyBuy`.`movie` (
+	`movieId` INT NOT NULL AUTO_INCREMENT,
+    `movieName` VARCHAR(50) NOT NULL,
+    `movieDes` TEXT DEFAULT NULL,
+    `postUrl` TEXT DEFAULT NULL,
+    PRIMARY KEY (`movieId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `easy_buy`.`schedule` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-    `theater_id` int(11) NOT NULL,
-    `time` date NOT NULL,
-    `hall_number` int(11) NOT NULL,
-    `movie_id` int(11) NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `schedule` (`theater_id`, `time`, `hall_number`),
-    KEY `theater_id` (`theater_id`),
-    KEY `movie_id` (`movie_id`),
-    CONSTRAINT `theater_id` FOREIGN KEY (`theater_id`) REFERENCES `theater` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `movie_id` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE IF NOT EXISTS `easyBuy`.`popularMovie` (
+	`movieId` INT NOT NULL AUTO_INCREMENT,
+    `movieName` VARCHAR(50) NOT NULL,
+    `movieDes` TEXT DEFAULT NULL,
+    `postUrl` TEXT DEFAULT NULL,
+    PRIMARY KEY (`movieId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `easy_buy`.`order` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-    `date` date NOT NULL,
-    `status` tinyint(4) DEFAULT 0,
-    `price` int(11) NOT NULL,
-    `phone_number` varchar(11) NOT NULL,
-    PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS `easyBuy`.`movieTime` (
+	`movieTimeId` INT NOT NULL AUTO_INCREMENT,
+    `date` VARCHAR(50) NOT NULL,
+    `startTime` VARCHAR(50) NOT NULL,
+    `endTime` VARCHAR(50) NOT NULL,
+    `movieId` INT NOT NULL,
+    `movieType` VARCHAR(50) NOT NULL,
+    `theaterId` INT NOT NULL,
+    `price` VARCHAR(50) NOT NULL,
+    `hallName` VARCHAR(50) NOT NULL,
+    PRIMARY KEY (`movieTimeId`),
+    UNIQUE KEY `schedule` (`theaterId`, `date`, `startTime`, `hallName`),
+    KEY `movieId` (`movieId`),
+    KEY `theaterId` (`theaterId`),
+    CONSTRAINT `movieId` FOREIGN KEY (`movieId`) REFERENCES `movie` (`movieId`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `theaterId` FOREIGN KEY (`theaterId`) REFERENCES `theater` (`theaterId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `easy_buy`.`order_list` (
-	`user_id` int(11) NOT NULL,
-    `order_id` int(11) NOT NULL,
-    PRIMARY KEY (`user_id`, `order_id`),
-    KEY `user_id` (`user_id`),
-    KEY `order_id` (`order_id`),
-	CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE IF NOT EXISTS `easyBuy`.`seatInfo` (
+	`seatId` INT NOT NULL AUTO_INCREMENT,
+    `position` INT NOT NULL,
+    `row` INT NOT NULL,
+    `column` INT NOT NULL,
+    `status` TINYINT(1) NOT NULL,
+    `movieTimeId` INT NOT NULL,
+    PRIMARY KEY (`seatId`),
+    KEY `movieTimeId` (`movieTimeId`),
+    CONSTRAINT `movieTimeId` FOREIGN KEY (`movieTimeId`) REFERENCES `movieTime` (`movieTimeId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `easy_buy`.`ticket` (
-	`order_id` int(11) NOT NULL,
-    `schedule_id` int(11) NOT NULL,
-    `seat_number` int(11) NOT NULL,
-	PRIMARY KEY (`schedule_id`, `seat_number`),
-    KEY `order_id2` (`order_id`),
-    KEY `schedule_id` (`schedule_id`),
-    CONSTRAINT `order_id2` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `schedule_id` FOREIGN KEY (`schedule_id`) REFERENCES `schedule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE IF NOT EXISTS `easyBuy`.`ticket` (
+	`ticketId` INT NOT NULL AUTO_INCREMENT,
+	`userId` INT NOT NULL,
+    `movieName` VARCHAR(50) NOT NULL,
+    `theaterName` VARCHAR(50) NOT NULL,
+    `dateTime` VARCHAR(50) NOT NULL,
+    `hallName` VARCHAR(50) NOT NULL,
+    `seats` VARCHAR(50) NOT NULL,
+	PRIMARY KEY (`ticketId`),
+    KEY `userId` (`userId`),
+    CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

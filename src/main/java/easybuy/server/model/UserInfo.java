@@ -1,20 +1,18 @@
 package easybuy.server.model;
 
-public class User {
+public class UserInfo {
 	private Integer userId;
     private String userName;
-    private String password;
     private String description;
     private String avatar;
-	
-	public User() {
+    
+	public UserInfo() {
 		super();
 	}
 
-	public User(String userName, String password, String description, String avatar) {
+	public UserInfo(String userName, String description, String avatar) {
 		super();
 		this.userName = userName;
-		this.password = password;
 		this.description = description;
 		this.avatar = avatar;
 	}
@@ -35,14 +33,6 @@ public class User {
 		this.userName = userName;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -57,14 +47,5 @@ public class User {
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
-	}
-	
-	public UserInfo toUserInfo() {
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUserId(userId);
-		userInfo.setUserName(userName);
-		userInfo.setDescription(description);
-		userInfo.setAvatar(avatar);
-		return userInfo;
 	}
 }
