@@ -31,7 +31,7 @@ public class UserDao {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "from User where username = ? and password = ?";
+			String hql = "from User where userName = ? and password = ?";
 			Query<User> query = sess.createQuery(hql, User.class);
 			users = query.setParameter(0, userName).setParameter(1, password).setCacheable(true).getResultList();
 			
@@ -61,7 +61,7 @@ public class UserDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			message = "用户注册失败，用户名已被注册";
+			message = "用户名已被注册";
 			logger.error("UserDao::register函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
@@ -81,7 +81,7 @@ public class UserDao {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "from User where username = ?";
+			String hql = "from User where userName = ?";
 			Query<User> query = sess.createQuery(hql, User.class);
 			users = query.setParameter(0, userName).setCacheable(true).getResultList();
 			
@@ -106,18 +106,18 @@ public class UserDao {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "update User set password = ? where username = ? and password = ?";
+			String hql = "update User set password = ? where userName = ? and password = ?";
 			Query<?> query = sess.createQuery(hql);
 			query.setParameter(0, newPassword).setParameter(1, userName).setParameter(2, oldPassword).setCacheable(true);
 			int flag = query.executeUpdate();
 			
 			if (flag == 0){
-				message = "修改密码失败，原密码错误";
+				message = "原密码错误";
 			}
 			
 			tx.commit();
 		} catch (Exception e) {
-			message = "修改密码失败，数据库访问错误";
+			message = "数据库访问错误";
 			logger.error("UserDao::changePassword函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
