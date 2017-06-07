@@ -25,12 +25,12 @@ public class UserService {
 		String message = null;
 		
 		if (Util.isBlank(userName) || Util.isBlank(password)) {
-			message = "ÓÃ»§Ãû»òÃÜÂëÎª¿Õ";
+			message = "ç”¨æˆ·åæˆ–å¯†ç ä¸ºç©º";
 		}
 		
 		if (message == null) {
 			if (getUser(userName) != null) {
-				message = "ÓÃ»§ÃûÒÑ±»×¢²á";
+				message = "ç”¨æˆ·åå·²è¢«æ³¨å†Œ";
 			}
 		}
 		
@@ -53,12 +53,12 @@ public class UserService {
 		String message = null;
 		
 		if (Util.isBlank(userName) || Util.isBlank(oldPassword) || Util.isBlank(newPassword)) {
-			message = "ÓÃ»§Ãû»òÃÜÂëÎª¿Õ";
+			message = "ç”¨æˆ·åæˆ–å¯†ç ä¸ºç©º";
 		}
 		
 		if (message == null) {
 			if (getUser(userName) == null) {
-				message = "ÓÃ»§²»´æÔÚ";
+				message = "ç”¨æˆ·ä¸å­˜åœ¨";
 			}
 		}
 		

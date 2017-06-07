@@ -154,6 +154,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.25</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.squareup.retrofit2</groupId>
 			<artifactId>adapter-rxjava</artifactId>
@@ -169,6 +170,7 @@
 			<artifactId>retrofit</artifactId>
 			<version>2.3.0</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>io.reactivex.rxjava2</groupId>
 			<artifactId>rxjava</artifactId>

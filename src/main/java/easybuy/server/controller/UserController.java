@@ -26,22 +26,21 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@ResponseBody
-	@RequestMapping(value = "login", method = RequestMethod.POST)
+	@RequestMapping(value = "login", method = {RequestMethod.POST, RequestMethod.GET})
 	public Object logIn(String userName, String password, HttpSession session) {
 		User user = null;
 		String message = null;
 		
 		session.removeAttribute("user");
-		
 		logger.info("Request to log in, session id:" + session.getId());
 
 		if (Util.isBlank(userName) || Util.isBlank(password)) {
-			message = "ÓÃ»§Ãû»òÃÜÂëÎª¿Õ";
+			message = "ç”¨æˆ·åæˆ–å¯†ç ä¸ºç©º";
 		}
 		
 		if (message == null) {
 			if (userService.getUser(userName) == null) {
-				message = "ÓÃ»§²»´æÔÚ";
+				message = "ç”¨æˆ·ä¸å­˜åœ¨";
 			}
 		}
 		
@@ -49,7 +48,7 @@ public class UserController {
 			user = userService.logIn(userName, password);
 			
 			if (user == null) {
-				message = "ÃÜÂë´íÎó";
+				message = "å¯†ç é”™è¯¯";
 			} else {
 				session.setAttribute("user", user.toUserInfo());
 			}

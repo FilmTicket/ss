@@ -21,7 +21,7 @@ public class UserDao {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 	
-	// ÓÃ»§µÇÂ¼
+	// ç”¨æˆ·ç™»å½•
 	public User logIn(String userName, String password) {
 		List<User> users = null;
 		
@@ -37,7 +37,7 @@ public class UserDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("UserDao::logInº¯Êı³ö´í:" + e.getMessage());
+			logger.error("UserDao::logInå‡½æ•°å‡ºé”™:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
@@ -46,7 +46,7 @@ public class UserDao {
 		return (users == null || users.isEmpty()) ? null : users.get(0);
 	}
 	
-	// ÓÃ»§×¢²á
+	// ç”¨æˆ·æ³¨å†Œ
 	public String register(String userName, String password, String description, String avatar) {
 		String message = null;	
 		
@@ -61,8 +61,8 @@ public class UserDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			message = "ÓÃ»§ÃûÒÑ±»×¢²á";
-			logger.error("UserDao::registerº¯Êı³ö´í:" + e.getMessage());
+			message = "ç”¨æˆ·åå·²è¢«æ³¨å†Œ";
+			logger.error("UserDao::registerå‡½æ•°å‡ºé”™:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
@@ -71,7 +71,7 @@ public class UserDao {
 		return message;
 	}
 	
-	// ÓÃ»§²éÑ¯
+	// æŸ¥è¯¢ç”¨æˆ·
 	public User getUser(String userName) {
 		List<User> users = null;
 		
@@ -87,7 +87,7 @@ public class UserDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("UserDao::getUserº¯Êı³ö´í:" + e.getMessage());
+			logger.error("UserDao::getUserå‡½æ•°å‡ºé”™:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
@@ -96,7 +96,7 @@ public class UserDao {
 		return (users == null || users.isEmpty()) ? null : users.get(0);
 	}
 	
-	// ĞŞ¸ÄÃÜÂë
+	// ä¿®æ”¹å¯†ç 
 	public String changePassword(String userName, String oldPassword, String newPassword) {
 		String message = null;
 		
@@ -112,13 +112,13 @@ public class UserDao {
 			int flag = query.executeUpdate();
 			
 			if (flag == 0){
-				message = "Ô­ÃÜÂë´íÎó";
+				message = "åŸå¯†ç é”™è¯¯";
 			}
 			
 			tx.commit();
 		} catch (Exception e) {
-			message = "Êı¾İ¿â·ÃÎÊ´íÎó";
-			logger.error("UserDao::changePasswordº¯Êı³ö´í:" + e.getMessage());
+			message = "æ•°æ®åº“è®¿é—®é”™è¯¯";
+			logger.error("UserDao::changePasswordå‡½æ•°å‡ºé”™:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();

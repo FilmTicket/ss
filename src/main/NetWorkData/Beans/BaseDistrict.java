@@ -1,7 +1,5 @@
 package Beans;
 
-import java.util.ArrayList;
-
 /**
  * Created by Chen on 2017/6/6.
  */
@@ -11,9 +9,6 @@ public class BaseDistrict {
     private String polyline;
     private String center;
     private String level;
-
-
-
 
     public String getAdcode() {
         return adcode;
@@ -54,6 +49,4 @@ public class BaseDistrict {
     public void setLevel(String level) {
         this.level = level;
     }
-
-
 }

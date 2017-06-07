@@ -1,13 +1,11 @@
 package Retrofit;
 
-import Beans.DistrictVO;
 import Interface.DistrictService;
 import Interface.MovieService;
 import com.google.gson.Gson;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
-import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,7 +28,6 @@ public class RetrofitFactory {
         }
         return intance;
     }
-
 
     private RetrofitFactory() {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {

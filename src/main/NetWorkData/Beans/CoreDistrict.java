@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class CoreDistrict extends BaseDistrict {
     private ArrayList<CoreDistrict> districts;
 
-
     public ArrayList<CoreDistrict> getCoreDistricts() {
         return districts;
     }

@@ -1,7 +1,5 @@
 package Beans;
 
-import javax.persistence.criteria.CriteriaBuilder;
-
 /**
  * Created by Chen on 2017/6/7.
  */

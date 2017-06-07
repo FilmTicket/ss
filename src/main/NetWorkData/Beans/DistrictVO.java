@@ -12,7 +12,6 @@ public class DistrictVO {
     private String count;
     private ArrayList<RootDistrict> districts = new ArrayList<RootDistrict>();
 
-
     public String getStatus() {
         return status;
     }
