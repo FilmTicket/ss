@@ -23,32 +23,31 @@ public class UserDaoTest {
 		
 		User user = userService.logIn(userName, password);
 		System.out.println("\nlog in test:");
-		System.out.println("log in by userName:" + userName);
 		if (user == null) {
-			System.out.println("User does not exist or incorrect password\n");
+			System.out.println("user does not exist or incorrect password\n");
 		} else {
-			System.out.println("Id:" + user.getUserId());
+			System.out.println("id:" + user.getUserId());
 			System.out.println("userName:" + user.getUserName());
-			System.out.println("Phone Number:" + user.getDescription() + "\n");
+			System.out.println("description:" + user.getDescription());
+			System.out.println("avatar:" + user.getAvatar() + "\n");
 		}
 	}
 	
-	@Test
+//	@Test
 	public void registerTest() {
-		String userName = "user";
-		String password = "123456";
-		String description = "haha";
+		String userName = "user2";
+		String password = "654321";
+		String description = "heihei";
+		String avatar = "";
 		
-		String message = userService.register(userName, password, description, "");
+		String message = userService.register(userName, password, description, avatar);
 		if (message == null) {
 			User user = userService.logIn(userName, password);
 			if (user != null) {
 				message = "success";
-			} else {
-				message = "fail";
 			}
 		}
-		System.out.println("\nadd user test:" + message + "\n");
+		System.out.println("\nregister test:" + message + "\n");
 	}
 	
 	@Test

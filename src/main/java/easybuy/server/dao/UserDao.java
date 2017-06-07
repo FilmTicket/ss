@@ -71,7 +71,7 @@ public class UserDao {
 		return message;
 	}
 	
-	// 用户查询 - 通过用户名
+	// 用户查询
 	public User getUser(String userName) {
 		List<User> users = null;
 		
