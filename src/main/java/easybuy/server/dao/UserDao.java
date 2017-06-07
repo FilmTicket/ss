@@ -16,10 +16,10 @@ import easybuy.server.model.User;
 @Component
 public class UserDao {
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
-	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 	
 	// ÓÃ»§µÇÂ¼
 	public User logIn(String userName, String password) {
@@ -31,9 +31,9 @@ public class UserDao {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "from User where userName = ? and password = ?";
+			String hql = "from User where userName = :userName and password = :password";
 			Query<User> query = sess.createQuery(hql, User.class);
-			users = query.setParameter(0, userName).setParameter(1, password).setCacheable(true).getResultList();
+			users = query.setParameter("userName", userName).setParameter("password", password).setCacheable(true).getResultList();
 			
 			tx.commit();
 		} catch (Exception e) {
@@ -81,9 +81,9 @@ public class UserDao {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "from User where userName = ?";
+			String hql = "from User where userName = :userName";
 			Query<User> query = sess.createQuery(hql, User.class);
-			users = query.setParameter(0, userName).setCacheable(true).getResultList();
+			users = query.setParameter("userName", userName).setCacheable(true).getResultList();
 			
 			tx.commit();
 		} catch (Exception e) {
@@ -106,9 +106,9 @@ public class UserDao {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "update User set password = ? where userName = ? and password = ?";
+			String hql = "update User set password = :newPassword where userName = :userName and password = :oldPassword";
 			Query<?> query = sess.createQuery(hql);
-			query.setParameter(0, newPassword).setParameter(1, userName).setParameter(2, oldPassword).setCacheable(true);
+			query.setParameter("newPassword", newPassword).setParameter("userName", userName).setParameter("oldPassword", oldPassword).setCacheable(true);
 			int flag = query.executeUpdate();
 			
 			if (flag == 0){

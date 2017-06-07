@@ -16,10 +16,10 @@ public class UserDaoTest {
 	@Autowired
 	private UserService userService;
 	
-//	@Test
+	@Test
 	public void logInTest() {
-		String userName = "user";
-		String password = "123456";
+		String userName = "yanghao";
+		String password = "12345678";
 		
 		User user = userService.logIn(userName, password);
 		System.out.println("\nlog in test:");
