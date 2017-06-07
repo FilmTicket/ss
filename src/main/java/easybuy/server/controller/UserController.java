@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-
 import easybuy.server.comm.Util;
 import easybuy.server.model.HttpResult;
 import easybuy.server.model.User;
@@ -64,10 +62,8 @@ public class UserController {
 		} else {
 			result = new HttpResult<UserInfo>(0, message, null);
 		}
-		
-		Gson gson = new Gson();
-		logger.info(gson.toJson(result));
-		return gson.toJson(result);
+
+		return result;
 	}
 	
 	@ResponseBody
@@ -84,9 +80,8 @@ public class UserController {
 		} else {
 			result = new HttpResult<String>(0, message, null);
 		}
-		
-		Gson gson = new Gson();
-		return gson.toJson(result);
+
+		return result;
 	}
 	
 	@ResponseBody
@@ -95,9 +90,8 @@ public class UserController {
 		session.removeAttribute("user");
 		
 		HttpResult<String> result = new HttpResult<String>(1, "", null);
-		
-		Gson gson = new Gson();
-		return gson.toJson(result);
+
+		return result;
 	}
 	
 	@ResponseBody
@@ -114,8 +108,7 @@ public class UserController {
 		} else {
 			result = new HttpResult<String>(0, message, null);
 		}
-		
-		Gson gson = new Gson();
-		return gson.toJson(result);
+
+		return result;
 	}
 }
