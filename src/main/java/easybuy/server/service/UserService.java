@@ -1,10 +1,13 @@
 package easybuy.server.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import easybuy.server.comm.Util;
 import easybuy.server.dao.UserDao;
+import easybuy.server.model.Ticket;
 import easybuy.server.model.User;
 
 @Service
@@ -25,12 +28,12 @@ public class UserService {
 		String message = null;
 		
 		if (Util.isBlank(userName) || Util.isBlank(password)) {
-			message = "ç”¨æˆ·åæˆ–å¯†ç ä¸ºç©º";
+			message = "ÓÃ»§Ãû»òÃÜÂëÎª¿Õ";
 		}
 		
 		if (message == null) {
 			if (getUser(userName) != null) {
-				message = "ç”¨æˆ·åå·²è¢«æ³¨å†Œ";
+				message = "ÓÃ»§ÃûÒÑ±»×¢²á";
 			}
 		}
 		
@@ -53,12 +56,12 @@ public class UserService {
 		String message = null;
 		
 		if (Util.isBlank(userName) || Util.isBlank(oldPassword) || Util.isBlank(newPassword)) {
-			message = "ç”¨æˆ·åæˆ–å¯†ç ä¸ºç©º";
+			message = "ÓÃ»§Ãû»òÃÜÂëÎª¿Õ";
 		}
 		
 		if (message == null) {
 			if (getUser(userName) == null) {
-				message = "ç”¨æˆ·ä¸å­˜åœ¨";
+				message = "ÓÃ»§²»´æÔÚ";
 			}
 		}
 		
@@ -67,5 +70,12 @@ public class UserService {
 		}
 		
 		return message;
+	}
+	
+	public List<Ticket> getTicketByUserId(Integer userId) {
+//		if (Util.isBlank(userId)) {
+//			return null;
+//		}
+		return userDao.getTicketByUserId(userId);
 	}
 }

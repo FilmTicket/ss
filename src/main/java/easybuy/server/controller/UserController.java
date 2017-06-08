@@ -1,5 +1,7 @@
 package easybuy.server.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import easybuy.server.comm.Util;
 import easybuy.server.model.HttpResult;
+import easybuy.server.model.Ticket;
 import easybuy.server.model.User;
 import easybuy.server.model.UserInfo;
 import easybuy.server.service.UserService;
@@ -36,12 +39,12 @@ public class UserController {
 		session.removeAttribute("user");
 
 		if (Util.isBlank(userName) || Util.isBlank(password)) {
-			message = "用户名或密码为空";
+			message = "鐢ㄦ埛鍚嶆垨瀵嗙爜涓虹┖";
 		}
 		
 		if (message == null) {
 			if (userService.getUser(userName) == null) {
-				message = "用户不存在";
+				message = "鐢ㄦ埛涓嶅瓨鍦�";
 			}
 		}
 		
@@ -49,7 +52,7 @@ public class UserController {
 			user = userService.logIn(userName, password);
 			
 			if (user == null) {
-				message = "密码错误";
+				message = "瀵嗙爜閿欒";
 			} else {
 				session.setAttribute("user", user.toUserInfo());
 			}
@@ -114,6 +117,27 @@ public class UserController {
 			result = new HttpResult<String>(0, message, "");
 		}
 
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getTicketByUserId", method = RequestMethod.POST)
+	public Object getTicketByUserId(Integer userId) {
+		String message = null;
+		List<Ticket> tickets = null;
+		tickets = userService.getTicketByUserId(userId);
+		
+		HttpResult<List<Ticket>> result = null;
+		
+		if (tickets.size() == 0) {
+			message = "该用户电影票为空";
+		}
+		
+		if (message == null) {
+			result = new HttpResult<List<Ticket>>(1, message, tickets);
+		} else {
+			result = new HttpResult<List<Ticket>>(1, message, null);
+		}
 		return result;
 	}
 }

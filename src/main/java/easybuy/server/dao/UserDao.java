@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import easybuy.server.model.Ticket;
 import easybuy.server.model.User;
 
 @Component
@@ -21,7 +22,7 @@ public class UserDao {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 	
-	// 用户登录
+	// 鐢ㄦ埛鐧诲綍
 	public User logIn(String userName, String password) {
 		List<User> users = null;
 		
@@ -37,7 +38,7 @@ public class UserDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("UserDao::logIn函数出错:" + e.getMessage());
+			logger.error("UserDao::logIn鍑芥暟鍑洪敊:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
@@ -46,7 +47,7 @@ public class UserDao {
 		return (users == null || users.isEmpty()) ? null : users.get(0);
 	}
 	
-	// 用户注册
+	// 鐢ㄦ埛娉ㄥ唽
 	public String register(String userName, String password, String description, String avatar) {
 		String message = null;	
 		
@@ -61,8 +62,8 @@ public class UserDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			message = "用户名已被注册";
-			logger.error("UserDao::register函数出错:" + e.getMessage());
+			message = "鐢ㄦ埛鍚嶅凡琚敞鍐�";
+			logger.error("UserDao::register鍑芥暟鍑洪敊:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
@@ -71,7 +72,7 @@ public class UserDao {
 		return message;
 	}
 	
-	// 查询用户
+	// 鏌ヨ鐢ㄦ埛
 	public User getUser(String userName) {
 		List<User> users = null;
 		
@@ -87,7 +88,7 @@ public class UserDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("UserDao::getUser函数出错:" + e.getMessage());
+			logger.error("UserDao::getUser鍑芥暟鍑洪敊:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
@@ -96,7 +97,7 @@ public class UserDao {
 		return (users == null || users.isEmpty()) ? null : users.get(0);
 	}
 	
-	// 修改密码
+	// 淇敼瀵嗙爜
 	public String changePassword(String userName, String oldPassword, String newPassword) {
 		String message = null;
 		
@@ -112,13 +113,13 @@ public class UserDao {
 			int flag = query.executeUpdate();
 			
 			if (flag == 0){
-				message = "原密码错误";
+				message = "鍘熷瘑鐮侀敊璇�";
 			}
 			
 			tx.commit();
 		} catch (Exception e) {
-			message = "数据库访问错误";
-			logger.error("UserDao::changePassword函数出错:" + e.getMessage());
+			message = "鏁版嵁搴撹闂敊璇�";
+			logger.error("UserDao::changePassword鍑芥暟鍑洪敊:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
@@ -126,4 +127,29 @@ public class UserDao {
 		}
 		return message;
 	}
+	
+	// 根据用户id获取电影票
+		public List<Ticket> getTicketByUserId(Integer userId) {
+			List<Ticket> result = null;
+			
+			Session sess = null;
+			Transaction tx = null;
+			try {
+				sess = sessionFactory.openSession();
+				tx = sess.beginTransaction();
+				
+				String hql = "from Ticket where userId = ?";
+				Query<Ticket> query = sess.createQuery(hql, Ticket.class);
+				result = query.setParameter(0, userId).setCacheable(true).getResultList();
+				
+				tx.commit();
+			} catch (Exception e) {
+				logger.error("UserDao::getTicketByUserId函数出错:" + e.getMessage());
+			} finally {
+				if (sess != null) {
+					sess.close();
+				}
+			}
+			return result;
+		}
 }
