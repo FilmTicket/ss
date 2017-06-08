@@ -37,13 +37,13 @@ public class TheaterDaoTest {
 	
 	@Test
 	public void getTheatersByTagTest() {
-//		String theaterName = "死神影院";
-//		String theaterAddr = "22222"; 
-//		String theaterDis = "333333";
-//		String theaterLowest = "shit";
-//		String tag = "Imax|popcorn";
-//		
-//		theaterdao.addTheater(theaterName, theaterAddr, theaterDis, theaterLowest, tag);
+		String theaterName = "死神影院";
+		String theaterAddr = "22222"; 
+		String theaterDis = "333333";
+		String theaterLowest = "shit";
+		String tag = "Imax|popcorn";
+		
+		theaterdao.addTheater(theaterName, theaterAddr, theaterDis, theaterLowest, tag);
 		
 		List<Theater> theaters1 = theaterdao.getTheatersByTag("Imax");
 		System.out.println("\ngetTheatersByTag test1:");
@@ -66,7 +66,7 @@ public class TheaterDaoTest {
 		}
 	}
 	
-	//@Test
+	@Test
 	public void searchTheatersTest() {
 	    String keyword = "死神";
 		
@@ -91,6 +91,7 @@ public class TheaterDaoTest {
 		}
 	} 
 	
+	/*
 	@Test
 	public void getTheaterTagTest() {
 		String _id = "10";
@@ -104,4 +105,5 @@ public class TheaterDaoTest {
 		}
 		
 	}
+	*/
 }

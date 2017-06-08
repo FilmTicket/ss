@@ -1,7 +1,12 @@
 package easybuy.server.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +25,15 @@ public class TheaterController {
 	@Autowired
 	private TheaterService theaterService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	@ResponseBody
-	@RequestMapping(value = "getTheaterByTag", method = RequestMethod.POST) 
-	public Object getTheaterByTag(String tag) {
+	@RequestMapping(value = "getTheaterByTag", method = RequestMethod.POST)
+	public Object getTheaterByTag(String tag, HttpSession session) {
 		List<Theater> theaters = null;
 		String message = null;
+		
+		logger.info("Request to get theater by tag, session id:" + session.getId());
 		
 		if (Util.isBlank(tag)) {
 			message = "tag为空";
@@ -32,7 +41,7 @@ public class TheaterController {
 						
 		if (message == null) {
 			theaters = theaterService.getTheatersByTag(tag);			
-			if (theaters == null||theaters.isEmpty()) {
+			if (theaters == null || theaters.isEmpty()) {
 				message = "影院不存在";
 			}
 		}
@@ -48,10 +57,12 @@ public class TheaterController {
 	}
     
 	@ResponseBody
-	@RequestMapping(value = "searchTheater", method = RequestMethod.POST) 
-	public Object searchTheater(String keyword) {
+	@RequestMapping(value = "searchTheater", method = RequestMethod.POST)
+	public Object searchTheater(String keyword, HttpSession session) {
 		List<Theater> theaters = null;
 		String message = null;
+		
+		logger.info("Request to search theater, session id:" + session.getId());
 		
 		if (Util.isBlank(keyword)) {
 			message = "keyword为空";
@@ -59,7 +70,7 @@ public class TheaterController {
 			
 		if (message == null) {
 			theaters = theaterService.searchTheater(keyword);			
-			if (theaters == null||theaters.isEmpty()) {
+			if (theaters == null || theaters.isEmpty()) {
 				message = "影院不存在";
 			}
 		}
@@ -75,28 +86,17 @@ public class TheaterController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "getTheaterTag", method = RequestMethod.POST)
-	public Object getTheaterTag(String theaterId) {
-		List<String> tags = null;
-		String message = null;
+	@RequestMapping(value = "getTheaterTag", method = RequestMethod.GET)
+	public Object getTheaterTag(HttpSession session) {
+		List<String> tags = new ArrayList<String>();
 		
-		if (Util.isBlank(theaterId)) {
-			message = "theaterIdÎª¿Õ";
-		}
+		logger.info("Request to get theater tag, session id:" + session.getId());
 		
-		if (message == null) {
-			tags = theaterService.getTheaterTag(theaterId);
-			if (tags == null||tags.isEmpty()) {
-				message = "theaterIdÎª¿Õ";
-			}
-		}
+		tags.add("imax");
+		tags.add("popcorn");
 		
 		HttpResult<List<String>> result = null;
-		if (message == null) {
-			result = new HttpResult<List<String> >(1, "", tags);
-		} else {
-			result = new HttpResult<List<String> >(0, message, null);
-		}
+		result = new HttpResult<List<String> >(1, "", tags);
 		
 		return result;	
 	}

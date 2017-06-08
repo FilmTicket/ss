@@ -1,8 +1,9 @@
-package Retrofit;
+package easybuy.server.networkdata.retrofit;
 
-import Interface.DistrictService;
-import Interface.MovieService;
 import com.google.gson.Gson;
+
+import easybuy.server.networkdata.interfaces.DistrictService;
+import easybuy.server.networkdata.interfaces.MovieService;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;

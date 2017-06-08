@@ -1,6 +1,6 @@
-package Interface;
+package easybuy.server.networkdata.interfaces;
 
-import Beans.DistrictVO;
+import easybuy.server.networkdata.beans.DistrictVO;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;

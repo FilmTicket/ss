@@ -1,4 +1,4 @@
-package Beans;
+package easybuy.server.networkdata.beans;
 
 /**
  * Created by Chen on 2017/6/6.

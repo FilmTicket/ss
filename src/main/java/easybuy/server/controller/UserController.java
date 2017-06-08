@@ -26,13 +26,14 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@ResponseBody
-	@RequestMapping(value = "login", method = {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public Object logIn(String userName, String password, HttpSession session) {
 		User user = null;
 		String message = null;
 		
-		session.removeAttribute("user");
 		logger.info("Request to log in, session id:" + session.getId());
+		
+		session.removeAttribute("user");
 
 		if (Util.isBlank(userName) || Util.isBlank(password)) {
 			message = "用户名或密码为空";
@@ -67,17 +68,19 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public Object register(String userName, String password, String description, String avatar) {
+	public Object register(String userName, String password, String description, String avatar, HttpSession session) {
 		String message = null;
+		
+		logger.info("Request to register, session id:" + session.getId());
 		
 		message = userService.register(userName, password, description, avatar);
 		
 		HttpResult<String> result = null;
 		
 		if (message == null) {
-			result = new HttpResult<String>(1, "", null);
+			result = new HttpResult<String>(1, "", "");
 		} else {
-			result = new HttpResult<String>(0, message, null);
+			result = new HttpResult<String>(0, message, "");
 		}
 
 		return result;
@@ -86,26 +89,29 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public Object logOut(HttpSession session) {
+		logger.info("Request to log out, session id:" + session.getId());
+		
 		session.removeAttribute("user");
 		
-		HttpResult<String> result = new HttpResult<String>(1, "", null);
-
+		HttpResult<String> result = new HttpResult<String>(1, "", "");
 		return result;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "changePassword", method = RequestMethod.POST)
-	public Object changePassword(String userName, String oldPassword, String newPassword) {
+	public Object changePassword(String userName, String oldPassword, String newPassword, HttpSession session) {
 		String message = null;
+		
+		logger.info("Request to change passowrd, session id:" + session.getId());
 		
 		message = userService.changePassword(userName, oldPassword, newPassword);
 		
 		HttpResult<String> result = null;
 		
 		if (message == null) {
-			result = new HttpResult<String>(1, "", null);
+			result = new HttpResult<String>(1, "", "");
 		} else {
-			result = new HttpResult<String>(0, message, null);
+			result = new HttpResult<String>(0, message, "");
 		}
 
 		return result;

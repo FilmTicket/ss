@@ -1,6 +1,6 @@
-package Interface;
+package easybuy.server.networkdata.interfaces;
 
-import Beans.MovieVO;
+import easybuy.server.networkdata.beans.MovieData;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -11,7 +11,7 @@ import rx.Observable;
 public interface MovieService {
 	
     @GET("list.json")
-    Observable<MovieVO> getAllMovies(@Query("type") String type,
+    Observable<MovieData> getAllMovies(@Query("type") String type,
                                      @Query("offset") Integer offset,
                                      @Query("limit") Integer limit);
 }

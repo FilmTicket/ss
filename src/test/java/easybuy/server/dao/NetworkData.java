@@ -1,10 +1,10 @@
 package easybuy.server.dao;
 
-import Beans.CoreDistrict;
-import Beans.DistrictVO;
-import Beans.MovieBean;
-import Beans.MovieVO;
-import Retrofit.RetrofitFactory;
+import easybuy.server.networkdata.beans.CoreDistrict;
+import easybuy.server.networkdata.beans.DistrictVO;
+import easybuy.server.networkdata.beans.MovieBean;
+import easybuy.server.networkdata.beans.MovieVO;
+import easybuy.server.networkdata.retrofit.RetrofitFactory;
 import rx.functions.Action1;
 
 import java.util.ArrayList;
