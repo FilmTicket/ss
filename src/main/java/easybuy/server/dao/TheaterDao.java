@@ -1,6 +1,5 @@
 package easybuy.server.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -22,13 +21,15 @@ public class TheaterDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	//根据tag查询影院
-	public List<Theater> getTheatersByTag (String tag) {
+	// 根据tag查询影院
+	public List<Theater> getTheatersByTag(String tag) {
 		List<Theater> theaters = null;
 		
 		Session sess = null;
 		Transaction tx = null;
-		if (tag == "全部") tag = "";
+		if (tag.equals("全部")) {
+			tag = "";
+		}
 		try {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
@@ -71,7 +72,7 @@ public class TheaterDao {
 		return message;
 	}
     
-	//根据关键字查询影院
+	// 根据关键字查询影院
     public List<Theater> searchTheater(String keyword) {
         List<Theater> theaters = null;
 		
@@ -97,7 +98,8 @@ public class TheaterDao {
 		return theaters;
     }
     
-    //查询影院的tag
+    // 查询影院的tag
+    /*
     public List<String> getTheaterTag(String theaterId) {
         
     	List<Theater> theaters = null;
@@ -133,4 +135,5 @@ public class TheaterDao {
 		
 		return tags;
     }
+    */
 }

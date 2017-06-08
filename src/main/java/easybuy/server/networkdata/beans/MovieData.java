@@ -1,4 +1,4 @@
-package Beans;
+package easybuy.server.networkdata.beans;
 
 import java.util.ArrayList;
 

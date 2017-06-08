@@ -15,10 +15,11 @@ public class TheaterService {
 	@Autowired
 	private TheaterDao  theaterdao;
 	
-	public List<Theater> getTheatersByTag (String tag) {
+	public List<Theater> getTheatersByTag(String tag) {
 		if (Util.isBlank(tag)) {
 			return null;
 		}
+		
 		return theaterdao.getTheatersByTag(tag);
 	}
 	
@@ -26,13 +27,17 @@ public class TheaterService {
 		if (Util.isBlank(keyword)) {
 			return null;
 		}
+		
 		return theaterdao.searchTheater(keyword);
 	}
-		
+	
+	/*
 	public List<String> getTheaterTag(String theaterId) {
 		if (Util.isBlank(theaterId)) {
 			return null;
 		}
+		
 		return theaterdao.getTheaterTag(theaterId);
 	}
+	*/
 }
