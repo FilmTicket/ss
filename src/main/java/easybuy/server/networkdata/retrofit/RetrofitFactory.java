@@ -51,7 +51,7 @@ public class RetrofitFactory {
         districtService = DistrictRetrofit.create(DistrictService.class);
 
         MovieRetrofit = new Retrofit.Builder()
-                .baseUrl("http://m.maoyan.com/movie/")
+                .baseUrl("http://m.maoyan.com/")
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
