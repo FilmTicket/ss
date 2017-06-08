@@ -14,16 +14,52 @@ import easybuy.server.model.PopularMovie;
 public class MovieService {
 	
 	@Autowired
-	private MovieDao  moviedao;
+	private MovieDao  movieDao;
 	
-	public List<PopularMovie> getPoppular() {
-		return moviedao.getPoppular();
+	public List<PopularMovie> getPopular() {
+		return movieDao.getPopular();
 	}
 	
 	public List<Movie> searchMovie(String keyword) {
 		if (Util.isBlank(keyword)) {
 			return null;
 		}
-		return moviedao.searchMovie(keyword);
+		return movieDao.searchMovie(keyword);
+	}
+	
+	public String addMovies(List<Movie> movies) {
+		String message = null;
+		
+		if (movies == null || movies.isEmpty()) {
+			message = "电影列表为空";
+		}
+		
+		if (message == null) {
+			return movieDao.addMovies(movies);
+		}
+		
+		return message;
+	}
+	
+	public String addPopularMovies(List<PopularMovie> populars) {
+		String message = null;
+		
+		if (populars == null || populars.isEmpty()) {
+			message = "热门电影列表为空";
+		}
+		
+		if (message == null) {
+			return movieDao.addPopularMovies(populars);
+		}
+		
+		return message;
+	}
+	
+	public String deleteAllMovie() {
+		return movieDao.deleteAllMovie();
+	}
+	
+	public String deleteAllPopularMovie() {
+		return movieDao.deleteAllPopularMovie();
 	}
 }

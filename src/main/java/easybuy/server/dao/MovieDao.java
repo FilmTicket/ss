@@ -17,10 +17,10 @@ import easybuy.server.model.PopularMovie;
 @Component
 public class MovieDao {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TheaterDao.class);
-	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	private static final Logger logger = LoggerFactory.getLogger(MovieDao.class);
 	
 	public String addMovie(String movieName, String movieDes, String postUrl) {
         String message = null;
@@ -36,13 +36,14 @@ public class MovieDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			message = "Movie insert fail!";
-			logger.error("MovieDao::addMovie" + e.getMessage());
+			message = "数据库访问错误";
+			logger.error("MovieDao::addMovie函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
 			}
 		}
+		
 		return message;
 	}
 	
@@ -60,17 +61,18 @@ public class MovieDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			message = "PopularMovie insert fail!";
-			logger.error("MovieDao::addMovie" + e.getMessage());
+			message = "数据库访问错误";
+			logger.error("MovieDao::addPopularMovie函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
 			}
 		}
+		
 		return message;
 	}
 	
-	public List<PopularMovie> getPoppular() {
+	public List<PopularMovie> getPopular() {
         List<PopularMovie> populars = null;		
 		Session sess = null;
 		Transaction tx = null;
@@ -82,9 +84,10 @@ public class MovieDao {
 			String hql = "from PopularMovie";
 			Query<PopularMovie> query = sess.createQuery(hql, PopularMovie.class);
 			populars = query.setCacheable(true).getResultList();
+			
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("MovieDao::getPoppular" + e.getMessage());
+			logger.error("MovieDao::getPopular函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
@@ -107,9 +110,10 @@ public class MovieDao {
 			String hql = "from Movie where movieName like :name";
 			Query<Movie> query = sess.createQuery(hql, Movie.class);
 			movies = query.setParameter("name", "%"+keyword+"%").setCacheable(true).getResultList();
+			
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("MovieDao::searchMovie" + e.getMessage());
+			logger.error("MovieDao::searchMovie函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
@@ -119,17 +123,91 @@ public class MovieDao {
 		return movies;
 	}
 	
-	public void addMovies(List<Movie> movies) {
+	public String addMovies(List<Movie> movies) {
+		String message = null;
+		
 		for (int i = 0; i < movies.size(); i++) {
 			Movie temp = movies.get(i);
-			addMovie(temp.getMovieName(), temp.getMovieDes(), temp.getPostUrl());
-		}		
+			message = addMovie(temp.getMovieName(), temp.getMovieDes(), temp.getPostUrl());
+			if (message != null) {
+				break;
+			}
+		}
+		
+		return message;
 	}
 	
-	public void addPopularMovies(List<PopularMovie> populars) {
+	public String addPopularMovies(List<PopularMovie> populars) {
+		String message = null;
+		
 		for (int i = 0; i < populars.size(); i++) {
 			PopularMovie temp = populars.get(i);
-			addMovie(temp.getMovieName(), temp.getMovieDes(), temp.getPostUrl());
-		}	
+			message = addPopularMovie(temp.getMovieName(), temp.getMovieDes(), temp.getPostUrl());
+			if (message != null) {
+				break;
+			}
+		}
+		
+		return message;
+	}
+	
+	public String deleteAllMovie() {
+		String message = null;
+		
+		Session sess = null;
+		Transaction tx = null;
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+			
+			String hql = "delete Movie";
+			Query<?> query = sess.createQuery(hql);
+			int flag = query.executeUpdate();
+			
+			if (flag == 0) {
+				message = "删除电影失败，数据库为空";
+			}
+			
+			tx.commit();
+		} catch (Exception e) {
+			message = "数据库访问错误";
+			logger.error("MovieDao::deleteAllMovie函数出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return message;
+	}
+	
+	public String deleteAllPopularMovie() {
+		String message = null;
+		
+		Session sess = null;
+		Transaction tx = null;
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+			
+			String hql = "delete PopularMovie";
+			Query<?> query = sess.createQuery(hql);
+			int flag = query.executeUpdate();
+			
+			if (flag == 0) {
+				message = "删除热门电影失败，数据库为空";
+			}
+			
+			tx.commit();
+		} catch (Exception e) {
+			message = "数据库访问错误";
+			logger.error("MovieDao::deleteAllPopularMovie函数出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return message;
 	}
 }
