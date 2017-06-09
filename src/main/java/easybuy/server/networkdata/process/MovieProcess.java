@@ -72,12 +72,12 @@ public class MovieProcess {
 	public void deleteMovieProcess() {
 		String message = null;
 		
-		message = movieService.deleteAllMovie();
+		message = movieService.deleteAllMovies();
 		if (message != null) {
         	logger.info(message);
         }
 		
-		message = movieService.deleteAllPopularMovie();
+		message = movieService.deleteAllPopularMovies();
 		if (message != null) {
         	logger.info(message);
         }

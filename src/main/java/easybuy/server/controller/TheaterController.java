@@ -25,7 +25,7 @@ public class TheaterController {
 	@Autowired
 	private TheaterService theaterService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(TheaterController.class);
 	
 	@ResponseBody
 	@RequestMapping(value = "getTheaterByTag", method = RequestMethod.POST)

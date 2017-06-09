@@ -98,42 +98,84 @@ public class TheaterDao {
 		return theaters;
     }
     
-    // 查询影院的tag
-    /*
-    public List<String> getTheaterTag(String theaterId) {
-        
-    	List<Theater> theaters = null;
-    	List<String> tags = null;
+    public String addTheaters (List<Theater> theaters) {
+    	String message = null;
+    	
+    	for (int i = 0; i < theaters.size(); ++i) {
+    		Theater temp = theaters.get(i);
+    		message = addTheater(temp.getTheaterName(), temp.getTheaterAddr(), temp.getTheaterDis(), temp.getTheaterLowest(), temp.getTag());
+    		if (message != null) {
+    			break;	   		
+    		}
+    	}
+    	
+    	return message;
+    }
+    
+    public String deleteAllTheaters() {
+		String message = null;
+		
 		Session sess = null;
 		Transaction tx = null;
-		String tag = null;
 		try {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
-			Integer _id = Integer.parseInt(theaterId);
 			
-			String hql = "from Theater where theaterId = ?";
-			Query<Theater> query = sess.createQuery(hql, Theater.class);
-			theaters = query.setParameter(0, _id).setCacheable(true).getResultList();
+			String hql = "delete Theater";
+			Query<?> query = sess.createQuery(hql);
+			int flag = query.executeUpdate();
 			
-			if (theaters.isEmpty()||theaters == null) {
-				
-			} else {				 
-				 tag = theaters.get(0).getTag();
-				 String[] temp = tag.split("\\u007C");
-				 tags = new ArrayList<String>();
-				 for (String s : temp) tags.add(s);
+			if (flag == 0) {
+				message = "删除影院失败，数据库为空";
 			}
+			
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("TheaterDao::getTheaterTag" + e.getMessage());
+			message = "数据库访问错误";
+			logger.error("MovieDao::deleteAllTheaters函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
 			}
 		}
 		
-		return tags;
-    }
-    */
+		return message;
+	}
+    
+    // 查询影院的tag
+//    public List<String> getTheaterTag(String theaterId) {
+//        
+//    	List<Theater> theaters = null;
+//    	List<String> tags = null;
+//		Session sess = null;
+//		Transaction tx = null;
+//		String tag = null;
+//		try {
+//			sess = sessionFactory.openSession();
+//			tx = sess.beginTransaction();
+//			Integer _id = Integer.parseInt(theaterId);
+//			
+//			String hql = "from Theater where theaterId = ?";
+//			Query<Theater> query = sess.createQuery(hql, Theater.class);
+//			theaters = query.setParameter(0, _id).setCacheable(true).getResultList();
+//			
+//			if (theaters.isEmpty()||theaters == null) {
+//				
+//			} else {				 
+//				 tag = theaters.get(0).getTag();
+//				 String[] temp = tag.split("\\u007C");
+//				 tags = new ArrayList<String>();
+//				 for (String s : temp) tags.add(s);
+//			}
+//			tx.commit();
+//		} catch (Exception e) {
+//			logger.error("TheaterDao::getTheaterTag" + e.getMessage());
+//		} finally {
+//			if (sess != null) {
+//				sess.close();
+//			}
+//		}
+//		
+//		return tags;
+//    }
 }

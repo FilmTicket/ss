@@ -55,11 +55,11 @@ public class MovieService {
 		return message;
 	}
 	
-	public String deleteAllMovie() {
-		return movieDao.deleteAllMovie();
+	public String deleteAllMovies() {
+		return movieDao.deleteAllMovies();
 	}
 	
-	public String deleteAllPopularMovie() {
-		return movieDao.deleteAllPopularMovie();
+	public String deleteAllPopularMovies() {
+		return movieDao.deleteAllPopularMovies();
 	}
 }
