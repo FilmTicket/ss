@@ -11,14 +11,14 @@ import java.util.ArrayList;
  */
 public class NetworkData {
     public static void main(String[] args) {
-        final String keywords = "中国";
-        final Integer subdistrict = 3;
-        final String API_KEY = "a0910adf7dba9c176a51e8bab4765956";
-        final Boolean showbiz = false;
-        final String extensions = "base";
-        final String type = "all";
-        final Integer offset = 0;
-        final Integer limit = 2000;
+//        final String keywords = "中国";
+//        final Integer subdistrict = 3;
+//        final String API_KEY = "a0910adf7dba9c176a51e8bab4765956";
+//        final Boolean showbiz = false;
+//        final String extensions = "base";
+//        final String type = "all";
+//        final Integer offset = 0;
+//        final Integer limit = 2000;
 
 //        RetrofitFactory.getInstance().getDistrictService()
 //                .getAllDistrict(keywords,

@@ -28,12 +28,12 @@ public class UserService {
 		String message = null;
 		
 		if (Util.isBlank(userName) || Util.isBlank(password)) {
-			message = "ÓÃ»§Ãû»òÃÜÂëÎª¿Õ";
+			message = "ç”¨æˆ·åæˆ–å¯†ç ä¸ºç©º";
 		}
 		
 		if (message == null) {
-			if (getUser(userName) != null) {
-				message = "ÓÃ»§ÃûÒÑ±»×¢²á";
+			if (getUserByUserName(userName) != null) {
+				message = "ç”¨æˆ·åå·²è¢«æ³¨å†Œ";
 			}
 		}
 		
@@ -44,24 +44,32 @@ public class UserService {
 		return message;
 	}
 	
-	public User getUser(String userName) {
+	public User getUserByUserName(String userName) {
 		if (Util.isBlank(userName)) {
 			return null;
 		}
 		
-		return userDao.getUser(userName);
+		return userDao.getUserByUserName(userName);
+	}
+	
+	public User getUserByUserId(Integer userId) {
+		if (userId == null) {
+			return null;
+		}
+		
+		return userDao.getUserByUserId(userId);
 	}
 	
 	public String changePassword(String userName, String oldPassword, String newPassword) {
 		String message = null;
 		
 		if (Util.isBlank(userName) || Util.isBlank(oldPassword) || Util.isBlank(newPassword)) {
-			message = "ÓÃ»§Ãû»òÃÜÂëÎª¿Õ";
+			message = "ç”¨æˆ·åæˆ–å¯†ç ä¸ºç©º";
 		}
 		
 		if (message == null) {
-			if (getUser(userName) == null) {
-				message = "ÓÃ»§²»´æÔÚ";
+			if (getUserByUserName(userName) == null) {
+				message = "ç”¨æˆ·ä¸å­˜åœ¨";
 			}
 		}
 		
@@ -73,9 +81,9 @@ public class UserService {
 	}
 	
 	public List<Ticket> getTicketByUserId(Integer userId) {
-//		if (Util.isBlank(userId)) {
-//			return null;
-//		}
+		if (userId == null) {
+			return null;
+		}
 		return userDao.getTicketByUserId(userId);
 	}
 }

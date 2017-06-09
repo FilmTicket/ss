@@ -25,7 +25,7 @@ public class TheaterController {
 	@Autowired
 	private TheaterService theaterService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(TheaterController.class);
 	
 	@ResponseBody
 	@RequestMapping(value = "getTheaterByTag", method = RequestMethod.POST)
@@ -47,6 +47,7 @@ public class TheaterController {
 		}
 		
 		HttpResult<List<Theater>> result = null;
+		
 		if (message == null) {
 			result = new HttpResult<List<Theater> >(1, "", theaters);
 		} else {
@@ -76,6 +77,7 @@ public class TheaterController {
 		}
 		
 		HttpResult<List<Theater>> result = null;
+		
 		if (message == null) {
 			result = new HttpResult<List<Theater> >(1, "", theaters);
 		} else {

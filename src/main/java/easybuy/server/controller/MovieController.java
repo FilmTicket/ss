@@ -25,7 +25,7 @@ public class MovieController {
 	@Autowired
 	private MovieService movieService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MovieController.class);
 	
 	@ResponseBody
 	@RequestMapping(value = "searchMovie", method = RequestMethod.POST)
@@ -47,6 +47,7 @@ public class MovieController {
 		}
 		
 		HttpResult<List<Movie>> result = null;
+		
 		if (message == null) {
 			result = new HttpResult<List<Movie> >(1, "", movies);
 		} else {
@@ -72,6 +73,7 @@ public class MovieController {
 		}
 		
 		HttpResult<List<PopularMovie>> result = null;
+		
 		if (message == null) {
 			result = new HttpResult<List<PopularMovie> >(1, "", populars);
 		} else {

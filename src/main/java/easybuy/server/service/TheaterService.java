@@ -33,23 +33,29 @@ public class TheaterService {
 	
 	public String addTheaters(List<Theater> theaters) {
 		String message = null;
+		
 		if (theaters == null || theaters.isEmpty()) {
 			message = "影院列表为空";
-		} else {
-			message = theaterDao.addTheaters(theaters);
+		}
+		
+		if (message == null) {
+			return theaterDao.addTheaters(theaters);
 		}
 		
 		return message;
 		
 	}
 	
-	/*
-	public List<String> getTheaterTag(String theaterId) {
-		if (Util.isBlank(theaterId)) {
-			return null;
-		}
-		
-		return theaterdao.getTheaterTag(theaterId);
+	public String deleteAllTheaters() {
+		return theaterDao.deleteAllTheaters();
 	}
-	*/
+	
+//	public List<String> getTheaterTag(String theaterId) {
+//		if (Util.isBlank(theaterId)) {
+//			return null;
+//		}
+//		
+//		return theaterDao.getTheaterTag(theaterId);
+//	}
+	
 }

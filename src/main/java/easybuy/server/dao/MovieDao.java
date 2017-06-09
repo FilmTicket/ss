@@ -152,7 +152,7 @@ public class MovieDao {
 		return message;
 	}
 	
-	public String deleteAllMovie() {
+	public String deleteAllMovies() {
 		String message = null;
 		
 		Session sess = null;
@@ -182,7 +182,7 @@ public class MovieDao {
 		return message;
 	}
 	
-	public String deleteAllPopularMovie() {
+	public String deleteAllPopularMovies() {
 		String message = null;
 		
 		Session sess = null;
