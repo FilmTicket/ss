@@ -49,7 +49,7 @@ public class MovieController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "searchMovie", method = RequestMethod.GET)
+	@RequestMapping(value = "getPopular", method = RequestMethod.GET)
 	public Object getPoppular(String keyword) {
 		List<PopularMovie> populars = null;
 		String message = null;

@@ -136,4 +136,14 @@ public class TheaterDao {
 		return tags;
     }
     */
+    
+    public String addTheaters (List<Theater> theaters) {
+    	String message = null;
+    	for (int i = 0; i < theaters.size(); ++i) {
+    		Theater temp = theaters.get(i);
+    		message = addTheater(temp.getTheaterName(), temp.getTheaterAddr(), temp.getTheaterDis(), temp.getTheaterLowest(), temp.getTag());
+    		if (message != null) break;	   		
+    	}
+    	return message;
+    }
 }

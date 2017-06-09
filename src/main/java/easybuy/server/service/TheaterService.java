@@ -13,14 +13,14 @@ import easybuy.server.model.Theater;
 public class TheaterService {
 
 	@Autowired
-	private TheaterDao  theaterdao;
+	private TheaterDao  theaterDao;
 	
 	public List<Theater> getTheatersByTag(String tag) {
 		if (Util.isBlank(tag)) {
 			return null;
 		}
 		
-		return theaterdao.getTheatersByTag(tag);
+		return theaterDao.getTheatersByTag(tag);
 	}
 	
 	public List<Theater> searchTheater(String keyword) {
@@ -28,7 +28,19 @@ public class TheaterService {
 			return null;
 		}
 		
-		return theaterdao.searchTheater(keyword);
+		return theaterDao.searchTheater(keyword);
+	}
+	
+	public String addTheaters(List<Theater> theaters) {
+		String message = null;
+		if (theaters == null || theaters.isEmpty()) {
+			message = "影院列表为空";
+		} else {
+			message = theaterDao.addTheaters(theaters);
+		}
+		
+		return message;
+		
 	}
 	
 	/*
