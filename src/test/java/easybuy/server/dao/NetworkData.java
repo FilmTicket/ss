@@ -1,9 +1,6 @@
 package easybuy.server.dao;
 
-import easybuy.server.networkdata.beans.CoreDistrict;
-import easybuy.server.networkdata.beans.DistrictVO;
-import easybuy.server.networkdata.beans.MovieBean;
-import easybuy.server.networkdata.beans.MovieVO;
+import easybuy.server.networkdata.beans.*;
 import easybuy.server.networkdata.retrofit.RetrofitFactory;
 import rx.functions.Action1;
 
@@ -23,44 +20,58 @@ public class NetworkData {
         final Integer offset = 0;
         final Integer limit = 2000;
 
-        RetrofitFactory.getInstance().getDistrictService()
-                .getAllDistrict(keywords,
-                        subdistrict,
-                        API_KEY,
-                        showbiz,
-                        extensions)
-                .subscribe(new Action1<DistrictVO>() {
-                    @Override
-                    public void call(DistrictVO districtVO) {
-                        ArrayList<CoreDistrict> provinces = districtVO.getDistricts().get(0).getCoreDistricts();
-                        System.out.println(provinces.size());
-                        int count = 0;
-                        for (CoreDistrict province : provinces) {
-                            ArrayList<CoreDistrict> cities = province.getCoreDistricts();
-                            for(CoreDistrict city : cities) {
-                                ArrayList<CoreDistrict> districts = city.getCoreDistricts();
-                                for (CoreDistrict district : districts) {
-                                    System.out.println(province.getName()+ " "+ city.getName()+ " "+ district.getName());
-                                    count++;
-                                }
-                            }
-                        }
-                        System.out.println("count:"+count);
-                    }
-                });
+//        RetrofitFactory.getInstance().getDistrictService()
+//                .getAllDistrict(keywords,
+//                        subdistrict,
+//                        API_KEY,
+//                        showbiz,
+//                        extensions)
+//                .subscribe(new Action1<DistrictVO>() {
+//                    @Override
+//                    public void call(DistrictVO districtVO) {
+//                        ArrayList<CoreDistrict> provinces = districtVO.getDistricts().get(0).getCoreDistricts();
+//                        System.out.println(provinces.size());
+//                        int count = 0;
+//                        for (CoreDistrict province : provinces) {
+//                            ArrayList<CoreDistrict> cities = province.getCoreDistricts();
+//                            for(CoreDistrict city : cities) {
+//                                ArrayList<CoreDistrict> districts = city.getCoreDistricts();
+//                                for (CoreDistrict district : districts) {
+//                                    System.out.println(province.getName()+ " "+ city.getName()+ " "+ district.getName());
+//                                    count++;
+//                                }
+//                            }
+//                        }
+//                        System.out.println("count:"+count);
+//                    }
+//                });
+
+//        RetrofitFactory.getInstance().getMovieService()
+//                .getAllMovies(type, offset, limit)
+//                .subscribe(new Action1<MovieVO>() {
+//                    @Override
+//                    public void call(MovieVO movieVO) {
+//                        int count = 0;
+//                        ArrayList<MovieBean> movieBeans = movieVO.getData().getMovies();
+//                        for (MovieBean movieBean : movieBeans) {
+//                            System.out.println(movieBean.getNm()+" "+movieBean.getCat()+" "+movieBean.getStar()+" "+movieBean.getImg());
+//                            count++;
+//                        }
+//                        System.out.println(count);
+//                    }
+//                });
 
         RetrofitFactory.getInstance().getMovieService()
-                .getAllMovies(type, offset, limit)
-                .subscribe(new Action1<MovieVO>() {
+                .getAllTheaters()
+                .subscribe(new Action1<TheaterVO>() {
                     @Override
-                    public void call(MovieVO movieVO) {
-                        int count = 0;
-                        ArrayList<MovieBean> movieBeans = movieVO.getData().getMovies();
-                        for (MovieBean movieBean : movieBeans) {
-                            System.out.println(movieBean.getNm()+" "+movieBean.getCat()+" "+movieBean.getStar()+" "+movieBean.getImg());
-                            count++;
+                    public void call(TheaterVO theaterVO) {
+                        System.out.println(theaterVO.getStatus());
+                        TheaterData theaterData = theaterVO.getData();
+                        ArrayList<TheaterBean> theaterBeans = theaterData.getAllTheaterBeans();
+                        for (TheaterBean bean : theaterBeans) {
+                            System.out.println("区域："+bean.getArea()+" 地址："+bean.getAddr()+"名称："+bean.getNm()+" 范围："+bean.getDis());
                         }
-                        System.out.println(count);
                     }
                 });
     }

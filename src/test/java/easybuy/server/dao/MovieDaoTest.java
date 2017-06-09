@@ -54,7 +54,7 @@ public class MovieDaoTest {
 	
 	@Test
 	public void getPoppular() {
-		List<PopularMovie> populars =  moviedao.getPoppular();
+		List<PopularMovie> populars =  moviedao.getPopular();
 		System.out.println("\ngetPoppular in test:");
 		
 		if (populars == null||populars.isEmpty()) {

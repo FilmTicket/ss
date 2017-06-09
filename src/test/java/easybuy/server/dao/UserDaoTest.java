@@ -1,11 +1,14 @@
 package easybuy.server.dao;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import easybuy.server.model.Ticket;
 import easybuy.server.model.User;
 import easybuy.server.service.UserService;
 
@@ -67,5 +70,18 @@ public class UserDaoTest {
 		}
 		System.out.println("\nchange password test:" + message + "\n");
 		userService.changePassword(userName, newPassword, oldPassword);
+	}
+	
+	
+	@Test
+	public void getTicketByUserId() {
+		Integer userId = 1433;
+		List<Ticket> tickets = userService.getTicketByUserId(userId);
+		if (tickets.size() > 0) {
+			System.out.println("the size of tickets: " + tickets.size() + "\n");
+			System.out.println("the first ticket's id: " + tickets.get(0).getTicketId() + "\n");
+		} else {
+			System.out.println("\nfail...\n");
+		}
 	}
 }

@@ -2,6 +2,10 @@ package easybuy.server.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +25,15 @@ public class MovieController {
 	@Autowired
 	private MovieService movieService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	@ResponseBody
 	@RequestMapping(value = "searchMovie", method = RequestMethod.POST)
-	public Object searchMovie(String keyword) {
+	public Object searchMovie(String keyword, HttpSession session) {
 		List<Movie> movies = null;
 		String message = null;
+		
+		logger.info("Request to search movie, session id:" + session.getId());
 		
 		if (Util.isBlank(keyword)) {
 			message = "keyword为空";
@@ -33,7 +41,7 @@ public class MovieController {
 						
 		if (message == null) {
 			movies = movieService.searchMovie(keyword);			
-			if (movies == null||movies.isEmpty()) {
+			if (movies == null || movies.isEmpty()) {
 				message = "电影不存在";
 			}
 		}
@@ -50,13 +58,15 @@ public class MovieController {
 	
 	@ResponseBody
 	@RequestMapping(value = "getPopular", method = RequestMethod.GET)
-	public Object getPoppular(String keyword) {
+	public Object getPopular(String keyword, HttpSession session) {
 		List<PopularMovie> populars = null;
 		String message = null;
+		
+		logger.info("Request to get popular, session id:" + session.getId());
 						
 		if (message == null) {
-			populars = movieService.getPoppular();			
-			if (populars == null||populars.isEmpty()) {
+			populars = movieService.getPopular();			
+			if (populars == null || populars.isEmpty()) {
 				message = "流行电影不存在";
 			}
 		}
