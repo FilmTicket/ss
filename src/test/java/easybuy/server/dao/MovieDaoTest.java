@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import easybuy.server.model.Movie;
+import easybuy.server.model.MovieTime;
 import easybuy.server.model.PopularMovie;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml")
@@ -52,7 +53,7 @@ public class MovieDaoTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void getPoppular() {
 		List<PopularMovie> populars =  moviedao.getPopular();
 		System.out.println("\ngetPoppular in test:");
@@ -66,7 +67,7 @@ public class MovieDaoTest {
 		}		
 	}
 	
-	@Test
+	//@Test
 	public void searchTheatersTest() {
 		String keyword = "神奇女侠";
 			
@@ -89,5 +90,48 @@ public class MovieDaoTest {
 					System.out.println(movies2.get(i).getMovieId() + "find\n");
 				}
 			}
-		} 
+		}
+	
+	//@Test
+	public void addMovieTimeTest() {
+		String date = "2017/6/9";
+		String startTime = "12:00";
+		String endTime = "15:00";
+		Integer movieId = 5;
+		String movieType = "动作";
+		Integer theaterId = 2;
+		String price = "100";
+		String hallName = "3号厅";
+		
+		String message = moviedao.addMovieTime(date, startTime, endTime, movieId, movieType, theaterId, price, hallName);
+		System.out.println("\naddMovie in test:");
+	
+		if (message != null) {
+			System.out.println("MovieTime has existed\n");
+		} else {
+			System.out.println("MovieTime add success\n");
+		}
+		
+	}
+	
+	@Test
+	public void getMovieTimeTest() {
+		String movieid = "4";
+		String theaterid = "1";
+		String date = "2017/6/9";
+		
+		List<MovieTime> movietimes = moviedao.getMovieTime(theaterid, movieid, date);
+		System.out.println("\ngetMovieTime in test:");
+		
+		if (movietimes == null||movietimes.isEmpty()) {
+			System.out.println("MovieTime does not exist\n");
+		} else {
+			for (int i = 0 ;i < movietimes.size(); ++i) {
+				System.out.println(movietimes.get(i).getMovieTimeId()+"find\n");
+			}
+		}
+		
+	}
+	
+	
 }

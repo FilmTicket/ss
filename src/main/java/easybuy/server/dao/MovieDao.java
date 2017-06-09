@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import easybuy.server.model.Movie;
 import easybuy.server.model.PopularMovie;
+import easybuy.server.model.MovieTime;
 
 @Component
 public class MovieDao {
@@ -210,4 +211,59 @@ public class MovieDao {
 		
 		return message;
 	}
+	
+	public String addMovieTime(String date, String startTime, String endTime, Integer movieId, String movieType, 
+			                   Integer theaterId, String price, String hallName) {		
+        
+		String message = null;
+		
+		Session sess = null;
+		Transaction tx = null;
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+			
+			MovieTime movietime = new MovieTime(date, startTime, endTime, movieId, movieType, theaterId, price, hallName);
+			sess.save(movietime);
+			
+			tx.commit();
+		} catch (Exception e) {
+			message = "数据库访问错误";
+			logger.error("MovieDao::addMovieTime函数出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return message;
+	}
+	
+	public List<MovieTime> getMovieTime (String theaterId, String movieId, String date) {
+        List<MovieTime> movietimes = null;
+		
+		Session sess = null;
+		Transaction tx = null;
+		
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+			
+			String hql = "from MovieTime where theaterId = ? and movieId = ? and date = ?";
+			Query<MovieTime> query = sess.createQuery(hql, MovieTime.class);
+			movietimes = query.setParameter(0, Integer.parseInt(theaterId)).setParameter(1, Integer.parseInt(movieId)).setParameter(2, date).setCacheable(true).getResultList();
+			
+			tx.commit();
+		} catch (Exception e) {
+			logger.error("MovieDao::searchMovie函数出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return movietimes;
+	}
+	
+	//public List<MovieTime> getMoviesByTheaterId
 }
