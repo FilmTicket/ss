@@ -47,6 +47,7 @@ public class TheaterController {
 		}
 		
 		HttpResult<List<Theater>> result = null;
+		
 		if (message == null) {
 			result = new HttpResult<List<Theater> >(1, "", theaters);
 		} else {
@@ -76,6 +77,7 @@ public class TheaterController {
 		}
 		
 		HttpResult<List<Theater>> result = null;
+		
 		if (message == null) {
 			result = new HttpResult<List<Theater> >(1, "", theaters);
 		} else {

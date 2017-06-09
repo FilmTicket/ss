@@ -22,7 +22,7 @@ public class UserDao {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 	
-	// 鐢ㄦ埛鐧诲綍
+	// 用户登录
 	public User logIn(String userName, String password) {
 		List<User> users = null;
 		
@@ -38,16 +38,17 @@ public class UserDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("UserDao::logIn鍑芥暟鍑洪敊:" + e.getMessage());
+			logger.error("UserDao::logIn函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
 			}
 		}
+		
 		return (users == null || users.isEmpty()) ? null : users.get(0);
 	}
 	
-	// 鐢ㄦ埛娉ㄥ唽
+	// 用户注册
 	public String register(String userName, String password, String description, String avatar) {
 		String message = null;	
 		
@@ -62,18 +63,19 @@ public class UserDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			message = "鐢ㄦ埛鍚嶅凡琚敞鍐�";
-			logger.error("UserDao::register鍑芥暟鍑洪敊:" + e.getMessage());
+			message = "用户名已被注册";
+			logger.error("UserDao::register函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
 			}
 		}
+		
 		return message;
 	}
 	
-	// 鏌ヨ鐢ㄦ埛
-	public User getUser(String userName) {
+	// 查询用户 - 通过用户名
+	public User getUserByUserName(String userName) {
 		List<User> users = null;
 		
 		Session sess = null;
@@ -88,16 +90,43 @@ public class UserDao {
 			
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("UserDao::getUser鍑芥暟鍑洪敊:" + e.getMessage());
+			logger.error("UserDao::getUserByUserName函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
 			}
 		}
+		
 		return (users == null || users.isEmpty()) ? null : users.get(0);
 	}
 	
-	// 淇敼瀵嗙爜
+	// 查询用户 - 通过用户Id
+	public User getUserByUserId(Integer userId) {
+		List<User> users = null;
+		
+		Session sess = null;
+		Transaction tx = null;
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+			
+			String hql = "from User where userId = :userId";
+			Query<User> query = sess.createQuery(hql, User.class);
+			users = query.setParameter("userName", userId).setCacheable(true).getResultList();
+			
+			tx.commit();
+		} catch (Exception e) {
+			logger.error("UserDao::getUserByUserId函数出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return (users == null || users.isEmpty()) ? null : users.get(0);
+	}
+	
+	// 修改密码
 	public String changePassword(String userName, String oldPassword, String newPassword) {
 		String message = null;
 		
@@ -111,45 +140,46 @@ public class UserDao {
 			Query<?> query = sess.createQuery(hql);
 			query.setParameter("newPassword", newPassword).setParameter("userName", userName).setParameter("oldPassword", oldPassword).setCacheable(true);
 			int flag = query.executeUpdate();
-			
 			if (flag == 0){
-				message = "鍘熷瘑鐮侀敊璇�";
+				message = "原密码错误";
 			}
 			
 			tx.commit();
 		} catch (Exception e) {
-			message = "鏁版嵁搴撹闂敊璇�";
-			logger.error("UserDao::changePassword鍑芥暟鍑洪敊:" + e.getMessage());
+			message = "数据库访问错误";
+			logger.error("UserDao::changePassword函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
 			}
 		}
+		
 		return message;
 	}
 	
-	// 根据用户id获取电影票
-		public List<Ticket> getTicketByUserId(Integer userId) {
-			List<Ticket> result = null;
+	// 根据用户Id获取电影票
+	public List<Ticket> getTicketByUserId(Integer userId) {
+		List<Ticket> result = null;
+		
+		Session sess = null;
+		Transaction tx = null;
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
 			
-			Session sess = null;
-			Transaction tx = null;
-			try {
-				sess = sessionFactory.openSession();
-				tx = sess.beginTransaction();
-				
-				String hql = "from Ticket where userId = ?";
-				Query<Ticket> query = sess.createQuery(hql, Ticket.class);
-				result = query.setParameter(0, userId).setCacheable(true).getResultList();
-				
-				tx.commit();
-			} catch (Exception e) {
-				logger.error("UserDao::getTicketByUserId函数出错:" + e.getMessage());
-			} finally {
-				if (sess != null) {
-					sess.close();
-				}
+			String hql = "from Ticket where userId = :userId";
+			Query<Ticket> query = sess.createQuery(hql, Ticket.class);
+			result = query.setParameter("userId", userId).setCacheable(true).getResultList();
+			
+			tx.commit();
+		} catch (Exception e) {
+			logger.error("UserDao::getTicketByUserId函数出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
 			}
-			return result;
 		}
+		
+		return result;
+	}
 }

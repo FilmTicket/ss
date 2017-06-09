@@ -47,6 +47,7 @@ public class MovieController {
 		}
 		
 		HttpResult<List<Movie>> result = null;
+		
 		if (message == null) {
 			result = new HttpResult<List<Movie> >(1, "", movies);
 		} else {
@@ -72,6 +73,7 @@ public class MovieController {
 		}
 		
 		HttpResult<List<PopularMovie>> result = null;
+		
 		if (message == null) {
 			result = new HttpResult<List<PopularMovie> >(1, "", populars);
 		} else {

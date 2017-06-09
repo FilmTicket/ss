@@ -36,7 +36,7 @@ public class UserDaoTest {
 		}
 	}
 	
-//	@Test
+	@Test
 	public void registerTest() {
 		String userName = "user2";
 		String password = "654321";
@@ -77,11 +77,13 @@ public class UserDaoTest {
 	public void getTicketByUserId() {
 		Integer userId = 1433;
 		List<Ticket> tickets = userService.getTicketByUserId(userId);
+		
+		System.out.println("\nget ticket test:");
 		if (tickets.size() > 0) {
 			System.out.println("the size of tickets: " + tickets.size() + "\n");
 			System.out.println("the first ticket's id: " + tickets.get(0).getTicketId() + "\n");
 		} else {
-			System.out.println("\nfail...\n");
+			System.out.println("there is no ticket for the user\n");
 		}
 	}
 }

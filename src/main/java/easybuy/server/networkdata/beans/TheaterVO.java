@@ -1,7 +1,5 @@
 package easybuy.server.networkdata.beans;
 
-import java.util.ArrayList;
-
 /**
  * Created by Chen on 2017/6/8.
  */
