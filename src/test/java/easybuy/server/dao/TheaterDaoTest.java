@@ -18,7 +18,6 @@ public class TheaterDaoTest {
 	
 	@Test
 	public void addTheaterTest() {
-		
 		String theaterName = "Wanda";
 		String theaterAddr = "11111"; 
 		String theaterDis = "222222";
@@ -44,9 +43,9 @@ public class TheaterDaoTest {
 		String tag = "Imax|popcorn";
 		
 		theaterdao.addTheater(theaterName, theaterAddr, theaterDis, theaterLowest, tag);
-		
 		List<Theater> theaters1 = theaterdao.getTheatersByTag("Imax");
 		System.out.println("\ngetTheatersByTag test1:");
+		
 		if (theaters1 == null) {
 			System.out.println("Theater does not existed\n");
 		} else {
@@ -57,6 +56,7 @@ public class TheaterDaoTest {
 		
 		List<Theater> theaters2 = theaterdao.getTheatersByTag("全部");
 		System.out.println("\ngetTheatersByTag test2:");
+		
 		if (theaters2.isEmpty()) {
 			System.out.println("Theater does not existed\n");
 		} else {
@@ -72,6 +72,7 @@ public class TheaterDaoTest {
 		
 		List<Theater> theaters1 = theaterdao.searchTheater(keyword);
 		System.out.println("\nsearchTheater test1:");
+		
 		if (theaters1.isEmpty()) {
 			System.out.println("Theater does not existed\n");
 		} else {
@@ -82,6 +83,7 @@ public class TheaterDaoTest {
 		
 		List<Theater> theaters2 = theaterdao.searchTheater("HAHa");
 		System.out.println("\nsearchTheater test2:");
+		
 		if (theaters2.isEmpty()) {
 			System.out.println("Theater does not existed\n");
 		} else {

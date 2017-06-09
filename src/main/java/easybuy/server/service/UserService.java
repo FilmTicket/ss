@@ -88,4 +88,24 @@ public class UserService {
 		
 		return userDao.getTicketByUserId(userId);
 	}
+	
+	public String createOrder(String userId, String movieTimeId, String seats) {
+		String message = null;
+		
+		if (Util.isBlank(userId) || Util.isBlank(movieTimeId) || Util.isBlank(seats)) {
+			message = "userId或movieTimeId或seats为空";
+		}
+		
+		if (message == null) {
+			if (getUserByUserId(Integer.parseInt(userId)) == null) {
+				message = "用户不存在";
+			}
+		}
+		
+		if (message == null) {
+			return userDao.createOrder(userId, movieTimeId, seats);
+		}
+		
+		return message;
+	}
 }

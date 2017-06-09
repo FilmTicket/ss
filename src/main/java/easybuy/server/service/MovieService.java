@@ -1,5 +1,6 @@
 package easybuy.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,9 @@ public class MovieService {
 	
 	public List<Movie> searchMovie(String keyword) {
 		if (Util.isBlank(keyword)) {
-			return null;
+			return new ArrayList<Movie>();
 		}
+		
 		return movieDao.searchMovie(keyword);
 	}
 	
@@ -65,24 +67,43 @@ public class MovieService {
 		return movieDao.deleteAllPopularMovies();
 	}
 	
-	public List<MovieTime> getMovieTime (String theaterId, String movieId, String date) {
-		if (Util.isBlank(theaterId)||Util.isBlank(movieId)||Util.isBlank(date)) {
-			return null;
+	public List<MovieTime> getMovieTime(String theaterId, String movieId, String date) {
+		if (Util.isBlank(theaterId) || Util.isBlank(movieId) || Util.isBlank(date)) {
+			return new ArrayList<MovieTime>();
 		}
+		
 		return movieDao.getMovieTime(theaterId, movieId, date);
 	}
 	
 	public List<Movie> getMoviesByTheaterId(String theaterId) {
 		if (Util.isBlank(theaterId)) {
-			return null;
+			return new ArrayList<Movie>();
 		}
+		
 		return movieDao.getMoviesByTheaterId(theaterId);
 	}
 	
 	public List<SeatInfo> getSeatInfoByMovieTimeId(String movieTimeId) {
 		if (Util.isBlank(movieTimeId)) {
+			return new ArrayList<SeatInfo>();
+		}
+		
+		return movieDao.getSeatInfoByMovieTimeId(movieTimeId);
+	}
+	
+	public Movie searchMovieByid(Integer movieid) {
+		if (movieid == null) {
 			return null;
 		}
-		return movieDao.getSeatInfoByMovieTimeId(movieTimeId);
+		
+		return movieDao.searchMovieByid(movieid);
+	}
+	
+	public MovieTime getMovieTimeById(Integer movieTimeId) {
+		if (movieTimeId == null) {
+			return null;
+		}
+		
+		return movieDao.getMovieTimeById(movieTimeId);
 	}
 }

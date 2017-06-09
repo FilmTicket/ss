@@ -37,6 +37,7 @@ public class TheaterDao {
 			String hql = "from Theater where tag like :name";
 			Query<Theater> query = sess.createQuery(hql, Theater.class);
 			theaters = query.setParameter("name", "%"+tag+"%").setCacheable(true).getResultList();
+			
 			tx.commit();
 		} catch (Exception e) {
 			logger.error("TheaterDao::getTheatersByTag" + e.getMessage());
@@ -45,6 +46,7 @@ public class TheaterDao {
 				sess.close();
 			}
 		}
+		
 		return theaters;
 	}
 	
@@ -69,6 +71,7 @@ public class TheaterDao {
 				sess.close();
 			}
 		}
+		
 		return message;
 	}
     
@@ -78,7 +81,6 @@ public class TheaterDao {
 		
 		Session sess = null;
 		Transaction tx = null;
-		
 		try {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
@@ -86,6 +88,7 @@ public class TheaterDao {
 			String hql = "from Theater where theaterName like :name";
 			Query<Theater> query = sess.createQuery(hql, Theater.class);
 			theaters = query.setParameter("name", "%"+keyword+"%").setCacheable(true).getResultList();
+			
 			tx.commit();
 		} catch (Exception e) {
 			logger.error("TheaterDao::searchTheater" + e.getMessage());
@@ -98,7 +101,7 @@ public class TheaterDao {
 		return theaters;
     }
     
-    public String addTheaters (List<Theater> theaters) {
+    public String addTheaters(List<Theater> theaters) {
     	String message = null;
     	
     	for (int i = 0; i < theaters.size(); ++i) {
@@ -141,6 +144,31 @@ public class TheaterDao {
 		
 		return message;
 	}
+    
+    public Theater searchTheaterById(Integer theaterId) {
+        List<Theater> theaters = null;
+		
+		Session sess = null;
+		Transaction tx = null;
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+			
+			String hql = "from Theater where theaterId = :theaterId";
+			Query<Theater> query = sess.createQuery(hql, Theater.class);
+			theaters = query.setParameter("theaterId", theaterId).setCacheable(true).getResultList();
+			
+			tx.commit();
+		} catch (Exception e) {
+			logger.error("TheaterDao::searchTheater" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return (theaters == null || theaters.isEmpty()) ? null : theaters.get(0);
+    }
     
     // 查询影院的tag
 //    public List<String> getTheaterTag(String theaterId) {

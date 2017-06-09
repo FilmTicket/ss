@@ -152,4 +152,24 @@ public class UserController {
 		
 		return result;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "createOrder", method = RequestMethod.POST)
+	public Object createOrder(String userId, String movieTimeId, String seats, HttpSession session) {
+		String message = null;
+		
+		logger.info("Request to create order, session id:" + session.getId());
+		
+		message = userService.createOrder(userId, movieTimeId, seats);
+		
+		HttpResult<String> result = null;
+		
+		if (message == null) {
+			result = new HttpResult<String>(1, "", "");
+		} else {
+			result = new HttpResult<String>(0, message, "");
+		}
+
+		return result;
+	}
 }

@@ -78,10 +78,10 @@ public class MovieDao {
 	}
 	
 	public List<PopularMovie> getPopular() {
-        List<PopularMovie> populars = null;		
+        List<PopularMovie> populars = null;
+        
 		Session sess = null;
 		Transaction tx = null;
-		
 		try {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
@@ -107,7 +107,6 @@ public class MovieDao {
 		
 		Session sess = null;
 		Transaction tx = null;
-		
 		try {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
@@ -219,7 +218,6 @@ public class MovieDao {
 	
 	public String addMovieTime(String date, String startTime, String endTime, Integer movieId, String movieType, 
 			                   Integer theaterId, String price, String hallName) {		
-        
 		String message = null;
 		
 		Session sess = null;
@@ -244,23 +242,22 @@ public class MovieDao {
 		return message;
 	}
 	
-	public List<MovieTime> getMovieTime (String theaterId, String movieId, String date) {
+	public List<MovieTime> getMovieTime(String theaterId, String movieId, String date) {
         List<MovieTime> movietimes = null;
 		
 		Session sess = null;
 		Transaction tx = null;
-		
 		try {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "from MovieTime where theaterId = ? and movieId = ? and date like :name";
+			String hql = "from MovieTime where theaterId = :theaterId and movieId = :movieId and date like :name";
 			Query<MovieTime> query = sess.createQuery(hql, MovieTime.class);
-			movietimes = query.setParameter(0, Integer.parseInt(theaterId)).setParameter(1, Integer.parseInt(movieId)).setParameter("name", "%"+date+"%").setCacheable(true).getResultList();
+			movietimes = query.setParameter("theaterId", Integer.parseInt(theaterId)).setParameter("movieId", Integer.parseInt(movieId)).setParameter("name", "%"+date+"%").setCacheable(true).getResultList();
 			
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("MovieDao::searchMovie函数出错:" + e.getMessage());
+			logger.error("MovieDao::getMovieTime函数出错:" + e.getMessage());
 		} finally {
 			if (sess != null) {
 				sess.close();
@@ -270,19 +267,43 @@ public class MovieDao {
 		return movietimes;
 	}
 	
+	public MovieTime getMovieTimeById(Integer movieTimeId) {
+		List<MovieTime> movieTimes = null;
+		
+		Session sess = null;
+		Transaction tx = null;
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+			
+			String hql = "from MovieTime where movieTimeId = :movieTimeId";
+			Query<MovieTime> query = sess.createQuery(hql, MovieTime.class);
+			movieTimes = query.setParameter("movieTimeId", movieTimeId).setCacheable(true).getResultList();
+			
+			tx.commit();
+		} catch (Exception e) {
+			logger.error("MovieDao::getMovieTimeById函数出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return (movieTimes == null || movieTimes.isEmpty()) ? null : movieTimes.get(0);
+	}
+	
 	public Movie searchMovieByid(Integer movieid) {
         Movie movie = null;
 		
 		Session sess = null;
 		Transaction tx = null;
-		
 		try {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "from Movie where movieId = ?";
+			String hql = "from Movie where movieId = :movieId";
 			Query<Movie> query = sess.createQuery(hql, Movie.class);
-			movie = query.setParameter(0, movieid).setCacheable(true).getResultList().get(0);
+			movie = query.setParameter("movieId", movieid).setCacheable(true).getResultList().get(0);
 			
 			tx.commit();
 		} catch (Exception e) {
@@ -295,20 +316,20 @@ public class MovieDao {
 		
 		return movie;
 	}
+	
 	public List<Integer> getMovieidsByTheaterId(String theaterId) {
-        
 		List<Integer> movieids = new ArrayList<Integer>();
 		List<MovieTime> movietimes = null;
+		
 		Session sess = null;
 		Transaction tx = null;
-		
 		try {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "from MovieTime where theaterId = ?";
+			String hql = "from MovieTime where theaterId = :theaterId";
 			Query<MovieTime> query = sess.createQuery(hql, MovieTime.class);
-			movietimes = query.setParameter(0, Integer.parseInt(theaterId)).setCacheable(true).getResultList();
+			movietimes = query.setParameter("theaterId", Integer.parseInt(theaterId)).setCacheable(true).getResultList();
 			
 			if (movietimes == null || movietimes.isEmpty()) {
 				
@@ -322,6 +343,7 @@ public class MovieDao {
 				movieids.clear();
 				movieids.addAll(set);
 			}
+			
 			tx.commit();
 		} catch (Exception e) {
 			logger.error("MovieDao::getMovieidsByTheaterId函数出错:" + e.getMessage());
@@ -343,22 +365,22 @@ public class MovieDao {
 			if (temp != null) 
 			movies.add(temp);
 		}
+		
 		return movies;
 	}
 	
 	public List<SeatInfo> getSeatInfoByMovieTimeId(String movieTimeId) {
-        
 		List<SeatInfo> seats = null;
+		
 		Session sess = null;
 		Transaction tx = null;
-		
 		try {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "from SeatInfo where movieTimeId = ?";
+			String hql = "from SeatInfo where movieTimeId = :movieTimeId";
 			Query<SeatInfo> query = sess.createQuery(hql, SeatInfo.class);
-			seats = query.setParameter(0, Integer.parseInt(movieTimeId)).setCacheable(true).getResultList();
+			seats = query.setParameter("movieTimeId", Integer.parseInt(movieTimeId)).setCacheable(true).getResultList();
 			
 			tx.commit();
 		} catch (Exception e) {
@@ -371,5 +393,4 @@ public class MovieDao {
 		
 		return seats;
 	}
-	
 }

@@ -22,7 +22,6 @@ public class MovieDaoTest {
 	
 	//@Test
 	public void addMovieTest() {
-		
 		String movieName = "一路向西";
 		String movieDes = "奥斯卡获奖电影"; 
 		String postUrl = "http://p1.meituan.net/165.220/movie/4185bf22758d232e15c5bf52f89a7553867763.png";
@@ -39,7 +38,6 @@ public class MovieDaoTest {
 	
 	//@Test
 	public void addPopularMovieTest() {
-		
 		String movieName = "加勒比海盗5";
 		String movieDes = "死无对证 喜剧,动作,奇幻 约翰尼·德普,哈维尔·巴登,布兰顿·思怀兹"; 
 		String postUrl = "http://p0.meituan.net/165.220/movie/ee5e691b425292f455c3eac5c628cfc7904509.png";
@@ -74,6 +72,7 @@ public class MovieDaoTest {
 			
 		List<Movie> movies1 = moviedao.searchMovie(keyword);
 		System.out.println("\nsearchMovie test1:");
+		
 		if (movies1.isEmpty()) {
 			System.out.println("Movie does not existed\n");
 		} else {
@@ -165,6 +164,4 @@ public class MovieDaoTest {
 			}
 		}
 	}
-	
-	
 }

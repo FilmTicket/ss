@@ -1,5 +1,6 @@
 package easybuy.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class TheaterService {
 	
 	public List<Theater> getTheatersByTag(String tag) {
 		if (Util.isBlank(tag)) {
-			return null;
+			return new ArrayList<Theater>();
 		}
 		
 		return theaterDao.getTheatersByTag(tag);
@@ -25,7 +26,7 @@ public class TheaterService {
 	
 	public List<Theater> searchTheater(String keyword) {
 		if (Util.isBlank(keyword)) {
-			return null;
+			return new ArrayList<Theater>();
 		}
 		
 		return theaterDao.searchTheater(keyword);
@@ -50,6 +51,14 @@ public class TheaterService {
 		return theaterDao.deleteAllTheaters();
 	}
 	
+	public Theater searchTheaterById(Integer theaterId) {
+		if (theaterId == null) {
+			return null;
+		}
+		
+		return theaterDao.searchTheaterById(theaterId);
+	}
+	
 //	public List<String> getTheaterTag(String theaterId) {
 //		if (Util.isBlank(theaterId)) {
 //			return null;
@@ -57,5 +66,4 @@ public class TheaterService {
 //		
 //		return theaterDao.getTheaterTag(theaterId);
 //	}
-	
 }

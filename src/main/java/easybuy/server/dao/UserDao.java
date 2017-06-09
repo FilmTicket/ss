@@ -1,5 +1,6 @@
 package easybuy.server.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -11,11 +12,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import easybuy.server.model.Movie;
+import easybuy.server.model.MovieTime;
+import easybuy.server.model.SeatInfo;
+import easybuy.server.model.Theater;
 import easybuy.server.model.Ticket;
 import easybuy.server.model.User;
+import easybuy.server.service.MovieService;
+import easybuy.server.service.TheaterService;
 
 @Component
 public class UserDao {
+	
+	@Autowired
+	private MovieService movieService;
+	
+	@Autowired
+	private TheaterService theaterService;
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -181,5 +194,84 @@ public class UserDao {
 		}
 		
 		return result;
+	}
+	
+	public String createOrder(String userId, String movieTimeId, String seats) {
+		String message = null;
+		
+		MovieTime movieTime = null;
+		Movie movie = null;
+		Theater theater = null;
+		Ticket ticket = null;
+		
+		movieTime = movieService.getMovieTimeById(Integer.parseInt(movieTimeId));
+		
+		if (movieTime == null) {
+			message = "MovieTime不存在";
+		}
+		
+		if (message == null) {
+			movie = movieService.searchMovieByid(movieTime.getMovieId());
+			theater = theaterService.searchTheaterById(movieTime.getTheaterId());
+			
+			if (movie == null) {
+				message = "电影不存在";
+			}
+			if (theater == null) {
+				message = "影院不存在";
+			}
+		}
+		
+		String[] seatTemps = seats.split("\\u007C");
+		List<SeatInfo> seatInfos = new ArrayList<SeatInfo>();
+		
+		if (message == null) {
+			try {
+				for (String seatTemp : seatTemps) {
+					Integer row = Integer.parseInt(seatTemp.substring(0, 1));
+					Integer column = Integer.parseInt(seatTemp.substring(2, 3));
+					Integer position = (row - 1) * 10 + column;
+					Integer status = 2;
+					
+					SeatInfo seatInfo = new SeatInfo(position, row, column, status, Integer.parseInt(movieTimeId));
+					seatInfos.add(seatInfo);
+				}
+			} catch (Exception e) {
+				message = "座位信息不合法";
+			}
+		}
+		
+		if (message == null) {
+			ticket = new Ticket(Integer.parseInt(userId), movie.getMovieName(), theater.getTheaterName(),
+					movieTime.getDate() + " " + movieTime.getStartTime(), movieTime.getHallName(), seats);
+			
+			Session sess = null;
+			Transaction tx = null;
+			try {
+				sess = sessionFactory.openSession();
+				tx = sess.beginTransaction();
+				
+				for (SeatInfo seatInfo : seatInfos) {
+					sess.save(seatInfo);
+				}
+				
+				sess.save(ticket);
+				
+				tx.commit();
+			} catch (Exception e) {
+				message = "创建订单失败";
+				logger.error("UserDao::createOrder函数出错:" + e.getMessage());
+				
+				if (tx != null) {
+					tx.rollback();
+				}
+			} finally {
+				if (sess != null) {
+					sess.close();				
+				}
+			}
+		}
+		
+		return message;
 	}
 }
