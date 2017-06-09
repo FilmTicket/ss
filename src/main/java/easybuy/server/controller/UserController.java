@@ -140,10 +140,6 @@ public class UserController {
 		
 		if (message == null) {
 			tickets = userService.getTicketByUserId(userId);
-			
-			if (tickets.size() == 0) {
-				message = "该用户电影票为空";
-			}
 		}
 		
 		HttpResult<List<Ticket>> result = null;

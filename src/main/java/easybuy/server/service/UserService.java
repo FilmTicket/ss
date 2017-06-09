@@ -1,5 +1,6 @@
 package easybuy.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,8 +83,9 @@ public class UserService {
 	
 	public List<Ticket> getTicketByUserId(Integer userId) {
 		if (userId == null) {
-			return null;
+			return new ArrayList<Ticket>();
 		}
+		
 		return userDao.getTicketByUserId(userId);
 	}
 }

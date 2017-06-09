@@ -112,7 +112,7 @@ public class UserDao {
 			
 			String hql = "from User where userId = :userId";
 			Query<User> query = sess.createQuery(hql, User.class);
-			users = query.setParameter("userName", userId).setCacheable(true).getResultList();
+			users = query.setParameter("userId", userId).setCacheable(true).getResultList();
 			
 			tx.commit();
 		} catch (Exception e) {
