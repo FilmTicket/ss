@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import easybuy.server.comm.Util;
 import easybuy.server.dao.MovieDao;
 import easybuy.server.model.Movie;
+import easybuy.server.model.MovieTime;
 import easybuy.server.model.PopularMovie;
+import easybuy.server.model.SeatInfo;
 
 @Service
 public class MovieService {
@@ -61,5 +63,26 @@ public class MovieService {
 	
 	public String deleteAllPopularMovies() {
 		return movieDao.deleteAllPopularMovies();
+	}
+	
+	public List<MovieTime> getMovieTime (String theaterId, String movieId, String date) {
+		if (Util.isBlank(theaterId)||Util.isBlank(movieId)||Util.isBlank(date)) {
+			return null;
+		}
+		return movieDao.getMovieTime(theaterId, movieId, date);
+	}
+	
+	public List<Movie> getMoviesByTheaterId(String theaterId) {
+		if (Util.isBlank(theaterId)) {
+			return null;
+		}
+		return movieDao.getMoviesByTheaterId(theaterId);
+	}
+	
+	public List<SeatInfo> getSeatInfoByMovieTimeId(String movieTimeId) {
+		if (Util.isBlank(movieTimeId)) {
+			return null;
+		}
+		return movieDao.getSeatInfoByMovieTimeId(movieTimeId);
 	}
 }

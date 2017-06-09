@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import easybuy.server.model.Movie;
 import easybuy.server.model.MovieTime;
 import easybuy.server.model.PopularMovie;
+import easybuy.server.model.SeatInfo;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml")
 
@@ -131,6 +132,38 @@ public class MovieDaoTest {
 			}
 		}
 		
+	}
+	
+	//@Test
+	public void getMoviesByTheaterIdTest() {
+	   String id = "2";
+	   
+	   List<Movie> movies = moviedao.getMoviesByTheaterId(id);
+	   System.out.println("\ngetMovieTime in test:");
+	   
+	   if (movies == null||movies.isEmpty()) {
+			System.out.println("Movies does not exist\n");
+		} else {
+			for (int i = 0 ;i < movies.size(); ++i) {
+				System.out.println(movies.get(i).getMovieId()+"find\n");
+			}
+		}
+	}
+	
+	@Test
+	public void getSeatInfoByMovieTimeIdTest() {
+	   String id = "5";
+	   
+	   List<SeatInfo> seats = moviedao.getSeatInfoByMovieTimeId(id);
+	   System.out.println("\ngetSeatInfoByMovieTimeIdTest in test:");
+	   
+	   if (seats == null||seats.isEmpty()) {
+			System.out.println("seats does not exist\n");
+		} else {
+			for (int i = 0 ;i < seats.size(); ++i) {
+				System.out.println(seats.get(i).getSeatId()+"find\n");
+			}
+		}
 	}
 	
 	

@@ -1,6 +1,9 @@
 package easybuy.server.dao;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
 import easybuy.server.model.Movie;
 import easybuy.server.model.PopularMovie;
 import easybuy.server.model.MovieTime;
+import easybuy.server.model.SeatInfo;
 
 @Component
 public class MovieDao {
@@ -123,6 +127,7 @@ public class MovieDao {
 		
 		return movies;
 	}
+	
 	
 	public String addMovies(List<Movie> movies) {
 		String message = null;
@@ -249,9 +254,9 @@ public class MovieDao {
 			sess = sessionFactory.openSession();
 			tx = sess.beginTransaction();
 			
-			String hql = "from MovieTime where theaterId = ? and movieId = ? and date = ?";
+			String hql = "from MovieTime where theaterId = ? and movieId = ? and date like :name";
 			Query<MovieTime> query = sess.createQuery(hql, MovieTime.class);
-			movietimes = query.setParameter(0, Integer.parseInt(theaterId)).setParameter(1, Integer.parseInt(movieId)).setParameter(2, date).setCacheable(true).getResultList();
+			movietimes = query.setParameter(0, Integer.parseInt(theaterId)).setParameter(1, Integer.parseInt(movieId)).setParameter("name", "%"+date+"%").setCacheable(true).getResultList();
 			
 			tx.commit();
 		} catch (Exception e) {
@@ -265,5 +270,106 @@ public class MovieDao {
 		return movietimes;
 	}
 	
-	//public List<MovieTime> getMoviesByTheaterId
+	public Movie searchMovieByid(Integer movieid) {
+        Movie movie = null;
+		
+		Session sess = null;
+		Transaction tx = null;
+		
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+			
+			String hql = "from Movie where movieId = ?";
+			Query<Movie> query = sess.createQuery(hql, Movie.class);
+			movie = query.setParameter(0, movieid).setCacheable(true).getResultList().get(0);
+			
+			tx.commit();
+		} catch (Exception e) {
+			logger.error("MovieDao::searchMovieByid函数出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return movie;
+	}
+	public List<Integer> getMovieidsByTheaterId(String theaterId) {
+        
+		List<Integer> movieids = new ArrayList<Integer>();
+		List<MovieTime> movietimes = null;
+		Session sess = null;
+		Transaction tx = null;
+		
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+			
+			String hql = "from MovieTime where theaterId = ?";
+			Query<MovieTime> query = sess.createQuery(hql, MovieTime.class);
+			movietimes = query.setParameter(0, Integer.parseInt(theaterId)).setCacheable(true).getResultList();
+			
+			if (movietimes == null || movietimes.isEmpty()) {
+				
+			} else {
+				for (int i = 0; i < movietimes.size(); i++) {
+					movieids.add(movietimes.get(i).getMovieId());
+				}
+				
+				//去重复操作
+				Set set = new HashSet(movieids);
+				movieids.clear();
+				movieids.addAll(set);
+			}
+			tx.commit();
+		} catch (Exception e) {
+			logger.error("MovieDao::getMovieidsByTheaterId函数出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return movieids;
+	}
+	
+	public List<Movie> getMoviesByTheaterId(String theaterId) {
+		List<Movie> movies = new ArrayList<Movie>();
+		List<Integer> movieids = getMovieidsByTheaterId(theaterId);
+		
+		for (int i = 0; i < movieids.size(); ++i) {
+			Movie temp = searchMovieByid(movieids.get(i));
+			if (temp != null) 
+			movies.add(temp);
+		}
+		return movies;
+	}
+	
+	public List<SeatInfo> getSeatInfoByMovieTimeId(String movieTimeId) {
+        
+		List<SeatInfo> seats = null;
+		Session sess = null;
+		Transaction tx = null;
+		
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+			
+			String hql = "from SeatInfo where movieTimeId = ?";
+			Query<SeatInfo> query = sess.createQuery(hql, SeatInfo.class);
+			seats = query.setParameter(0, Integer.parseInt(movieTimeId)).setCacheable(true).getResultList();
+			
+			tx.commit();
+		} catch (Exception e) {
+			logger.error("MovieDao::getSeatInfoByMovieTimeId函数出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return seats;
+	}
+	
 }

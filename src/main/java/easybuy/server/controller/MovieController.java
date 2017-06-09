@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import easybuy.server.comm.Util;
 import easybuy.server.model.HttpResult;
 import easybuy.server.model.Movie;
+import easybuy.server.model.MovieTime;
 import easybuy.server.model.PopularMovie;
+import easybuy.server.model.SeatInfo;
 import easybuy.server.service.MovieService;
 
 @Controller
@@ -82,4 +84,80 @@ public class MovieController {
 		
 		return result;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getMovieTime", method = RequestMethod.POST)
+	public Object getMovieTime(String theaterId, String movieId, String date, HttpSession session) {
+		List<MovieTime> movietimes = null;
+		String message = null;
+		
+		logger.info("Request to getMovieTime, session id:" + session.getId());
+						
+		if (message == null) {
+			movietimes = movieService.getMovieTime(theaterId, movieId, date);		
+			if (movietimes == null || movietimes.isEmpty()) {
+				message = "电影排场不存在";
+			}
+		}
+		
+		HttpResult<List<MovieTime>> result = null;
+		
+		if (message == null) {
+			result = new HttpResult<List<MovieTime> >(1, "", movietimes);
+		} else {
+			result = new HttpResult<List<MovieTime> >(0, message, null);
+		}	
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getMoviesByTheaterId", method = RequestMethod.POST)
+	public Object getMoviesByTheaterId(String theaterId, HttpSession session) {
+		List<Movie> movies = null;
+		String message = null;
+		
+		logger.info("Request to getMoviesByTheaterId, session id:" + session.getId());
+						
+		if (message == null) {
+			movies = movieService.getMoviesByTheaterId(theaterId);		
+			if (movies == null || movies.isEmpty()) {
+				message = "电影不存在";
+			}
+		}
+		
+		HttpResult<List<Movie>> result = null;
+		
+		if (message == null) {
+			result = new HttpResult<List<Movie> >(1, "", movies);
+		} else {
+			result = new HttpResult<List<Movie> >(0, message, null);
+		}	
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getSeatInfoByMovieTimeId", method = RequestMethod.POST)
+	public Object getSeatInfoByMovieTimeId(String movieTimeId, HttpSession session) {
+		List<SeatInfo> SeatInfos = null;
+		String message = null;
+		
+		logger.info("Request to getSeatInfoByMovieTimeId, session id:" + session.getId());
+						
+		if (message == null) {
+			SeatInfos = movieService.getSeatInfoByMovieTimeId(movieTimeId);		
+			if (SeatInfos == null || SeatInfos.isEmpty()) {
+				message = "座位不存在";
+			}
+		}
+		
+		HttpResult<List<SeatInfo>> result = null;
+		
+		if (message == null) {
+			result = new HttpResult<List<SeatInfo> >(1, "", SeatInfos);
+		} else {
+			result = new HttpResult<List<SeatInfo> >(0, message, null);
+		}	
+		return result;
+	}
+	
 }
