@@ -19,7 +19,7 @@ public class UserDaoTest {
 	@Autowired
 	private UserService userService;
 	
-	@Test
+//	@Test
 	public void logInTest() {
 		String userName = "yanghao";
 		String password = "12345678";
@@ -36,7 +36,7 @@ public class UserDaoTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void registerTest() {
 		String userName = "user2";
 		String password = "654321";
@@ -53,7 +53,7 @@ public class UserDaoTest {
 		System.out.println("\nregister test:" + message + "\n");
 	}
 	
-	@Test
+//	@Test
 	public void changePasswordTest() {
 		String userName = "user";
 		String oldPassword = "123456";
@@ -73,7 +73,7 @@ public class UserDaoTest {
 	}
 	
 	
-	@Test
+//	@Test
 	public void getTicketByUserId() {
 		Integer userId = 1433;
 		List<Ticket> tickets = userService.getTicketByUserId(userId);
@@ -85,5 +85,21 @@ public class UserDaoTest {
 		} else {
 			System.out.println("there is no ticket for the user\n");
 		}
+	}
+	
+	@Test
+	public void createOrderTest() {
+		String userId = "1";
+		String movieTimeId = "100";
+		String seats = "1排3座|2排8座|6排7座|9排1座";
+		
+		String message = null;
+		
+		message = userService.createOrder(userId, movieTimeId, seats);
+		if (message == null) {
+			message = "success";
+		}
+		
+		System.out.println("\ncreate order test:" + message);
 	}
 }

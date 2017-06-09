@@ -4,7 +4,7 @@ public class SeatInfo {
 	private Integer seatId;
 	private Integer position;
 	private Integer row;
-	private Integer column;
+	private Integer col;
 	private Integer status;
 	private Integer movieTimeId;
 	
@@ -12,11 +12,11 @@ public class SeatInfo {
 		super();
 	}
 
-	public SeatInfo(Integer position, Integer row, Integer column, Integer status, Integer movieTimeId) {
+	public SeatInfo(Integer position, Integer row, Integer col, Integer status, Integer movieTimeId) {
 		super();
 		this.position = position;
 		this.row = row;
-		this.column = column;
+		this.col = col;
 		this.status = status;
 		this.movieTimeId = movieTimeId;
 	}
@@ -45,12 +45,12 @@ public class SeatInfo {
 		this.row = row;
 	}
 
-	public Integer getColumn() {
-		return column;
+	public Integer getCol() {
+		return col;
 	}
 
-	public void setColumn(Integer column) {
-		this.column = column;
+	public void setCol(Integer col) {
+		this.col = col;
 	}
 
 	public Integer getStatus() {

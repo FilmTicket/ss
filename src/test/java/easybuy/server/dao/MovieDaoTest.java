@@ -1,5 +1,6 @@
 package easybuy.server.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -114,7 +115,7 @@ public class MovieDaoTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void getMovieTimeTest() {
 		String movieid = "4";
 		String theaterid = "1";
@@ -149,7 +150,7 @@ public class MovieDaoTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void getSeatInfoByMovieTimeIdTest() {
 	   String id = "5";
 	   
@@ -162,6 +163,32 @@ public class MovieDaoTest {
 			for (int i = 0 ;i < seats.size(); ++i) {
 				System.out.println(seats.get(i).getSeatId()+"find\n");
 			}
+		}
+	}
+	
+	@Test
+	public void createMovieTimeTable() {
+		String[] movieTimeList = {"8:00", "10:00", "12;00", "14:00", "16:00", "18:00", "20:00", "22:00"};
+		String[] dateList = {"06月11日","06月12日","06月13日","06月14日", "06月15日", "06月16日", "06月17日"};
+		String[] hallNameList = {"一号厅", "二号厅", "三号厅", "四号厅", "五号厅", "六号厅"};
+		String[] priceList = {"35", "45", "60", "75"};
+		String[] movieTypeList = {"中文2D", "英语2D", "中文3D", "英语3D"};
+		
+		List<String[]> lists = new ArrayList<String[]>();
+		lists.add(movieTimeList);
+		lists.add(dateList);
+		lists.add(hallNameList);
+		lists.add(priceList);
+		lists.add(movieTypeList);
+		
+		System.out.println("the num: " + lists.size() + "\n");
+		
+		String message = moviedao.createMovieTimeTable(lists);
+		if (message == null) {
+			System.out.println("已成功创建movieTime表.\n");
+		} else {
+			System.out.println(message);
+			System.out.println("创建movieTime表失败.\n");
 		}
 	}
 }

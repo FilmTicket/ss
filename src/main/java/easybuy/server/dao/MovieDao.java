@@ -3,6 +3,7 @@ package easybuy.server.dao;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.hibernate.Session;
@@ -392,5 +393,65 @@ public class MovieDao {
 		}
 		
 		return seats;
+	}
+	
+	public String createMovieTimeTable(List<String[]> lists) {
+		String message = null;
+		Session sess = null;
+		Transaction tx = null;
+		
+		try {
+			sess = sessionFactory.openSession();
+			tx = sess.beginTransaction();
+					
+			String[] movieTimeList = lists.get(0);
+			String[] dateList = lists.get(1);
+			String[] hallNameList = lists.get(2);
+			String[] priceList = lists.get(3);
+			String[] movieTypeList = lists.get(4);
+			
+			
+			for (int i = 0; i < 100; i++) {
+				MovieTime temp = new MovieTime();
+				Random random = new Random();
+				
+		        int seven_random = random.nextInt(6);
+				temp.setDate(dateList[seven_random]);
+//				System.out.println("the random seven: " + seven_random);
+				
+				Random random2 = new Random();
+				int six_random = random2.nextInt(5);
+				temp.setHallName(hallNameList[six_random]);
+//				System.out.println("the random six: " + six_random);
+				
+				int eight_random = random.nextInt(7);
+				temp.setStartTime(movieTimeList[eight_random]);
+				temp.setEndTime(movieTimeList[eight_random+1]);
+				
+				int four_random = random.nextInt(3);
+				temp.setMovieType(movieTypeList[four_random]);
+				temp.setPrice(priceList[four_random]);
+				
+				int id_random = random.nextInt(49)+1;
+				temp.setMovieId(id_random);
+				
+				int id_random1 = random.nextInt(100)+1;
+				temp.setTheaterId(id_random1);
+//				System.out.println("the random id: " + id_random);
+				
+				sess.save(temp);
+			}
+			
+			tx.commit();
+		} catch (Exception e) {
+			message = "数据库访问错误";
+			logger.error("MovieDao::create_MovieTime_Table出错:" + e.getMessage());
+		} finally {
+			if (sess != null) {
+				sess.close();
+			}
+		}
+		
+		return message;
 	}
 }

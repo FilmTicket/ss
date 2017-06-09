@@ -19,8 +19,8 @@
 		<property name="row">
 			<column name="row"></column>
 		</property>
-		<property name="column"> 
-			<column name="column"></column>
+		<property name="col"> 
+			<column name="col"></column>
 		</property>
 		<property name="status"> 
 			<column name="status"></column>

@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `easyBuy`.`seatInfo` (
 	`seatId` INT NOT NULL AUTO_INCREMENT,
     `position` INT NOT NULL,
     `row` INT NOT NULL,
-    `column` INT NOT NULL,
+    `col` INT NOT NULL,
     `status` TINYINT(1) NOT NULL,
     `movieTimeId` INT NOT NULL,
     PRIMARY KEY (`seatId`),

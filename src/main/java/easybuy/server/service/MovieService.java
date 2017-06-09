@@ -106,4 +106,8 @@ public class MovieService {
 		
 		return movieDao.getMovieTimeById(movieTimeId);
 	}
+	
+	public String createMovieTimeTable(List<String[]> lists) {
+		return movieDao.createMovieTimeTable(lists);
+	}
 }
