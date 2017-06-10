@@ -139,24 +139,15 @@ public class MovieController {
 	@RequestMapping(value = "getSeatInfoByMovieTimeId", method = RequestMethod.POST)
 	public Object getSeatInfoByMovieTimeId(String movieTimeId, HttpSession session) {
 		List<SeatInfo> SeatInfos = null;
-		String message = null;
 		
 		logger.info("Request to getSeatInfoByMovieTimeId, session id:" + session.getId());
-						
-		if (message == null) {
-			SeatInfos = movieService.getSeatInfoByMovieTimeId(movieTimeId);		
-			if (SeatInfos == null || SeatInfos.isEmpty()) {
-				message = "座位不存在";
-			}
-		}
+		
+		SeatInfos = movieService.getSeatInfoByMovieTimeId(movieTimeId);
 		
 		HttpResult<List<SeatInfo>> result = null;
 		
-		if (message == null) {
-			result = new HttpResult<List<SeatInfo> >(1, "", SeatInfos);
-		} else {
-			result = new HttpResult<List<SeatInfo> >(0, message, null);
-		}	
+		result = new HttpResult<List<SeatInfo> >(1, "", SeatInfos);
+		
 		return result;
 	}
 	

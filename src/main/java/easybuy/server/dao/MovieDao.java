@@ -382,7 +382,9 @@ public class MovieDao {
 			String hql = "from SeatInfo where movieTimeId = :movieTimeId";
 			Query<SeatInfo> query = sess.createQuery(hql, SeatInfo.class);
 			seats = query.setParameter("movieTimeId", Integer.parseInt(movieTimeId)).setCacheable(true).getResultList();
-			
+			if (seats == null) {
+				seats = new ArrayList<SeatInfo>();
+			}
 			tx.commit();
 		} catch (Exception e) {
 			logger.error("MovieDao::getSeatInfoByMovieTimeId函数出错:" + e.getMessage());
@@ -415,8 +417,8 @@ public class MovieDao {
 				MovieTime temp = new MovieTime();
 				Random random = new Random();
 				
-		        int seven_random = random.nextInt(6);
-				temp.setDate(dateList[seven_random]);
+		        int three_random = random.nextInt(2);
+				temp.setDate(dateList[three_random]);
 //				System.out.println("the random seven: " + seven_random);
 				
 				Random random2 = new Random();
@@ -432,7 +434,7 @@ public class MovieDao {
 				temp.setMovieType(movieTypeList[four_random]);
 				temp.setPrice(priceList[four_random]);
 				
-				int id_random = random.nextInt(49)+1;
+				int id_random = random.nextInt(47)+1;
 				temp.setMovieId(id_random);
 				
 				int id_random1 = random.nextInt(100)+1;

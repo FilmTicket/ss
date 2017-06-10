@@ -225,11 +225,25 @@ public class UserDao {
 		String[] seatTemps = seats.split("\\u007C");
 		List<SeatInfo> seatInfos = new ArrayList<SeatInfo>();
 		
+	
 		if (message == null) {
 			try {
+//				System.out.println("hhh: " + seatTemps.length);
+//				System.out.println("hhh: " + seatTemps[1]);
 				for (String seatTemp : seatTemps) {
-					Integer row = Integer.parseInt(seatTemp.substring(0, 1));
-					Integer column = Integer.parseInt(seatTemp.substring(2, 3));
+					String num = seatTemp.substring(1, 2);
+					Integer row;
+					Integer column;
+					if (!(num.equals("排"))) {
+						row = Integer.parseInt(seatTemp.substring(0, 2));
+						column = Integer.parseInt(seatTemp.substring(3, seatTemp.length()-1));
+					} else {
+						row = Integer.parseInt(seatTemp.substring(0, 1));
+						column = Integer.parseInt(seatTemp.substring(2, seatTemp.length()-1));
+					}
+					
+					System.out.println("row: " + row + " column: " + column);
+					
 					Integer position = (row - 1) * 10 + column;
 					Integer status = 2;
 					

@@ -90,8 +90,8 @@ public class UserDaoTest {
 	@Test
 	public void createOrderTest() {
 		String userId = "1";
-		String movieTimeId = "100";
-		String seats = "1排3座|2排8座|6排7座|9排1座";
+		String movieTimeId = "50";
+		String seats = "3排2座|10排8座|6排10座|10排10座";
 		
 		String message = null;
 		

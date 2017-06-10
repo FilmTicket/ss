@@ -169,7 +169,7 @@ public class MovieDaoTest {
 	@Test
 	public void createMovieTimeTable() {
 		String[] movieTimeList = {"8:00", "10:00", "12;00", "14:00", "16:00", "18:00", "20:00", "22:00"};
-		String[] dateList = {"06月11日","06月12日","06月13日","06月14日", "06月15日", "06月16日", "06月17日"};
+		String[] dateList = {"06月10日","06月11日","06月12日"};
 		String[] hallNameList = {"一号厅", "二号厅", "三号厅", "四号厅", "五号厅", "六号厅"};
 		String[] priceList = {"35", "45", "60", "75"};
 		String[] movieTypeList = {"中文2D", "英语2D", "中文3D", "英语3D"};
